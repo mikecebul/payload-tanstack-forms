@@ -5,6 +5,7 @@ import { fieldContext, formContext, useFormContext } from './form-context'
 import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
 import TextField from '../components/text-field'
+import EmailField from '../components/email-field'
 
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
@@ -22,6 +23,7 @@ function SubscribeButton({ label }: { label: string }) {
 export const { useAppForm, withForm } = createFormHook({
   fieldComponents: {
     TextField,
+    EmailField,
   },
   formComponents: {
     SubscribeButton,

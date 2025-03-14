@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
 
-export default function TextField({
+export default function EmailField({
   id,
   label,
   width = 100,
@@ -17,14 +17,14 @@ export default function TextField({
 }) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errorMap['onChange'])
-  
+
   return (
     <div className={cn('col-span-2', { 'col-span-1': width === 50 })}>
       <div className={cn('grid gap-2 w-full')}>
         <Label htmlFor={id}>{label}</Label>
         <Input
           id={id}
-          type="text"
+          type="email"
           value={field.state.value}
           onChange={(e) => field.handleChange(e.target.value)}
         />
@@ -33,7 +33,7 @@ export default function TextField({
         {errors &&
           errors.length > 0 &&
           errors.map((error: any) => (
-            <em key={error.code} className="text-destructive first:mt-1 text-sm">
+            <em key={error.code} className="text-destructive first:mt-1 text-sm block">
               {error.message}
             </em>
           ))}
