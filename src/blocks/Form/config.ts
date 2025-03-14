@@ -10,6 +10,8 @@ import {
 export const FormBlock: Block = {
   slug: 'formBlock',
   interfaceName: 'FormBlock',
+  imageURL: '/media/form-skeleton.avif',
+  imageAltText: 'tanstack form',
   fields: [
     {
       name: 'form',

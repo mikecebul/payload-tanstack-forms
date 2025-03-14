@@ -75,79 +75,140 @@ export const TanstackFormBlock = ({
     },
   })
 
-  return (
-    <div className="max-w-3xl mx-auto">
-      {enableIntro && introContent && !form.state.isSubmitted && (
-        <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
-      )}
-      {confirmationMessage &&
-        confirmationType === 'message' &&
-        !form.state.isSubmitting &&
-        form.state.isSubmitted && <RichText data={confirmationMessage} />}
+  console.log('confirmation messge:', confirmationMessage)
 
-      {postError && <div>{`${postError.status || '500'}: ${postError.message || ''}`}</div>}
-      {!form.state.isSubmitted && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            form.handleSubmit()
-          }}
-        >
-          <Card className="@container">
-            <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6">
-              {fields &&
-                fields?.map((field) => {
-                  if (!field || field.blockType === 'message') return null
-                  if (field.blockType === 'text')
-                    return (
-                      <form.AppField
-                        key={field.id}
-                        name={field.name}
-                        validators={{
-                          onChange: field.required
-                            ? z.string().min(1, `${field.label || field.name} is required`)
-                            : z.string().optional(),
-                        }}
-                      >
-                        {(formField) => (
-                          <formField.TextField
-                            label={field.label ?? field.name}
-                            width={field.width ?? 100}
-                            id={field.id ?? field.name}
-                          />
-                        )}
-                      </form.AppField>
-                    )
-                  if (field.blockType === 'email')
-                    return (
-                      <form.AppField
-                        key={field.id}
-                        name={field.name}
-                        validators={{
-                          onChange: field.required
-                            ? z.string().email().min(1, 'Email is required')
-                            : z.string().email().optional(),
-                        }}
-                      >
-                        {(formField) => (
-                          <formField.EmailField
-                            label={field.label ?? field.name}
-                            width={field.width ?? 100}
-                            id={field.id ?? field.name}
-                          />
-                        )}
-                      </form.AppField>
-                    )
-                })}
-            </CardContent>
-            <CardFooter>
-              <form.AppForm>
-                <form.SubscribeButton label={submitButtonLabel ?? 'Submit'} />
-              </form.AppForm>
-            </CardFooter>
-          </Card>
-        </form>
+  return (
+    <div className="max-w-lg mx-auto">
+      {confirmationMessage && confirmationType === 'message' && (
+        <form.Subscribe selector={(state) => [state.isSubmitSuccessful]}>
+          {([isSubmitSuccessful]) =>
+            !isSubmitSuccessful ? (
+              <>
+                {enableIntro && introContent && (
+                  <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
+                )}
+                {postError && (
+                  <div>{`${postError.status || '500'}: ${postError.message || ''}`}</div>
+                )}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    form.handleSubmit()
+                  }}
+                >
+                  <Card className="@container">
+                    <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6">
+                      {fields &&
+                        fields?.map((field) => {
+                          if (!field || field.blockType === 'message') return null
+                          if (field.blockType === 'text')
+                            return (
+                              <form.AppField
+                                key={field.id}
+                                name={field.name}
+                                validators={{
+                                  onChange: field.required
+                                    ? z.string().min(1, `${field.label || field.name} is required`)
+                                    : z.string().optional(),
+                                }}
+                              >
+                                {(formField) => (
+                                  <formField.TextField
+                                    label={field.label ?? field.name}
+                                    width={field.width ?? 100}
+                                    id={field.id ?? field.name}
+                                  />
+                                )}
+                              </form.AppField>
+                            )
+                          if (field.blockType === 'email')
+                            return (
+                              <form.AppField
+                                key={field.id}
+                                name={field.name}
+                                validators={{
+                                  onChange: field.required
+                                    ? z.string().min(1, 'Email is required').email()
+                                    : z.string().email().optional(),
+                                }}
+                              >
+                                {(formField) => (
+                                  <formField.TextField
+                                    label={field.label ?? field.name}
+                                    width={field.width ?? 100}
+                                    id={field.id ?? field.name}
+                                  />
+                                )}
+                              </form.AppField>
+                            )
+                          if (field.blockType === 'phone')
+                            return (
+                              <form.AppField
+                                key={field.id}
+                                name={field.name}
+                                validators={{
+                                  onChange: field.required
+                                    ? z
+                                        .string()
+                                        .min(1, 'Phone number required')
+                                        .regex(
+                                          /^(?:\+?1[-. ]?)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                                          'Invalid phone number',
+                                        )
+                                    : z
+                                        .string()
+                                        .regex(
+                                          /^(?:\+?1[-. ]?)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                                          'Invalid phone number',
+                                        )
+                                        .optional(),
+                                }}
+                              >
+                                {(formField) => (
+                                  <formField.TextField
+                                    label={field.label ?? field.name}
+                                    width={field.width ?? 100}
+                                    id={field.id ?? field.name}
+                                  />
+                                )}
+                              </form.AppField>
+                            )
+                          if (field.blockType === 'textarea')
+                            return (
+                              <form.AppField
+                                key={field.id}
+                                name={field.name}
+                                validators={{
+                                  onChange: field.required
+                                    ? z.string().min(1, `${field.label || field.name} is required`)
+                                    : z.string().optional(),
+                                }}
+                              >
+                                {(formField) => (
+                                  <formField.TextareaField
+                                    label={field.label ?? field.name}
+                                    width={field.width ?? 100}
+                                    id={field.id ?? field.name}
+                                  />
+                                )}
+                              </form.AppField>
+                            )
+                        })}
+                    </CardContent>
+                    <CardFooter>
+                      <form.AppForm>
+                        <form.SubscribeButton label={submitButtonLabel ?? 'Submit'} />
+                      </form.AppForm>
+                    </CardFooter>
+                  </Card>
+                </form>
+              </>
+            ) : (
+              <RichText data={confirmationMessage} />
+            )
+          }
+        </form.Subscribe>
       )}
     </div>
   )

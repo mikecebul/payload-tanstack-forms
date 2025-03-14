@@ -17,7 +17,7 @@ export default function TextField({
 }) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errorMap['onChange'])
-  
+
   return (
     <div className={cn('col-span-2', { 'col-span-1': width === 50 })}>
       <div className={cn('grid gap-2 w-full')}>
@@ -30,13 +30,7 @@ export default function TextField({
         />
       </div>
       <div>
-        {errors &&
-          errors.length > 0 &&
-          errors.map((error: any) => (
-            <em key={error.code} className="text-destructive first:mt-1 text-sm">
-              {error.message}
-            </em>
-          ))}
+        {errors && <em className="text-destructive first:mt-1 text-sm">{errors[0].message}</em>}
       </div>
     </div>
   )
