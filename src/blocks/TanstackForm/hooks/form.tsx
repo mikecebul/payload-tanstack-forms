@@ -1,16 +1,20 @@
 'use client'
 
 import { createFormHook } from '@tanstack/react-form'
-import { lazy } from 'react'
 import { fieldContext, formContext, useFormContext } from './form-context'
-
-const TextField = lazy(() => import('../components/text-field'))
+import { Button } from '@/components/ui/button'
+import { Loader } from 'lucide-react'
+import TextField from '../components/text-field'
 
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
   return (
-    <form.Subscribe selector={(state) => state.isSubmitting}>
-      {(isSubmitting) => <button disabled={isSubmitting}>{label}</button>}
+    <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
+      {([canSubmit, isSubmitting]) => (
+        <Button className="w-full" disabled={!canSubmit || isSubmitting}>
+          {isSubmitting ? <Loader className="animate-spin" /> : label}
+        </Button>
+      )}
     </form.Subscribe>
   )
 }

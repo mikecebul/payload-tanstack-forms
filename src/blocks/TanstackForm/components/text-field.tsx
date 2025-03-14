@@ -4,15 +4,16 @@ import { useStore } from '@tanstack/react-form'
 import { useFieldContext } from '../hooks/form-context'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { cn } from '@/utilities/ui'
 
-export default function TextField({ label }: { label: string }) {
+export default function TextField({ label, width = 100 }: { label: string; width: number }) {
   const field = useFieldContext<string>()
 
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
     <div>
-      <div className="grid gap-2">
+      <div className={cn('grid gap-2 @max-3xs:bg-red-500')}>
         <Label htmlFor={label}>{label}</Label>
         <Input
           id={label}
@@ -21,7 +22,7 @@ export default function TextField({ label }: { label: string }) {
         />
       </div>
       {errors.map((error: string) => (
-        <em key={error} className="text-destructive">
+        <em key={error} className="text-destructive mt-1">
           {error}
         </em>
       ))}

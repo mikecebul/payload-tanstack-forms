@@ -1,13 +1,14 @@
 'use client'
 
 import { useAppForm } from './hooks/form'
-import { AddressFields } from './address-fields'
-import { peopleFormOpts } from './shared-form'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { defaultValuesOpts } from './default-values'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { FormBlock } from '@/payload-types'
 
-export const TanstackFormBlock = () => {
+export const TanstackFormBlock = ({ form: formFromProps }: FormBlock) => {
+  const { fields, submitButtonLabel } = typeof formFromProps !== 'string' ? formFromProps : {}
   const form = useAppForm({
-    ...peopleFormOpts,
+    ...defaultValuesOpts(fields),
     validators: {
       onChange: ({ value }) => {
         const errors = {
@@ -15,32 +16,28 @@ export const TanstackFormBlock = () => {
         } as {
           fields: Record<string, string>
         }
-        if (!value.fullName) {
-          errors.fields.fullName = 'Full name is required'
-        }
-        if (!value.phone) {
-          errors.fields.phone = 'Phone is required'
-        }
-        if (!value.emergencyContact.fullName) {
-          errors.fields['emergencyContact.fullName'] = 'Emergency contact full name is required'
-        }
-        if (!value.emergencyContact.phone) {
-          errors.fields['emergencyContact.phone'] = 'Emergency contact phone is required'
-        }
+
+        fields?.forEach((field) => {
+          if ('required' in field && field?.required && !value[field.name]) {
+            errors.fields[field.name] = `${field.label || field.name} is required`
+          }
+        })
 
         return errors
       },
     },
-    onSubmit: ({ value }) => {
-      alert(JSON.stringify(value, null, 2))
+    onSubmit: async ({ value }) => {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      form.reset()
     },
   })
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-3xl mx-auto">
       <form
         onSubmit={(e) => {
           e.preventDefault()
+          e.stopPropagation()
           form.handleSubmit()
         }}
       >
@@ -49,28 +46,27 @@ export const TanstackFormBlock = () => {
             <CardTitle>Tanstack Form</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <form.AppField name="fullName">
-              {(field) => <field.TextField label="Full Name" />}
-            </form.AppField>
-            <form.AppField name="email">
-              {(field) => <field.TextField label="Email" />}
-            </form.AppField>
-            <form.AppField name="phone">
-              {(field) => <field.TextField label="Phone" />}
-            </form.AppField>
-            <AddressFields form={form} />
-
-            <h2 className="text-lg font-semibold">Emergency Contact</h2>
-            <form.AppField name="emergencyContact.fullName">
-              {(field) => <field.TextField label="Full Name" />}
-            </form.AppField>
-            <form.AppField name="emergencyContact.phone">
-              {(field) => <field.TextField label="Phone" />}
-            </form.AppField>
-            <form.AppForm>
-              <form.SubscribeButton label="Submit" />
-            </form.AppForm>
+            {fields &&
+              fields?.map((field) => {
+                if (!field || field.blockType === 'message') return null
+                if (field.blockType === 'text') console.log('Width:', field.width)
+                return (
+                  <form.AppField key={field.id} name={field.name}>
+                    {(formField) => (
+                      <formField.TextField
+                        label={field.label ?? field.name}
+                        width={field.width ?? 100}
+                      />
+                    )}
+                  </form.AppField>
+                )
+              })}
           </CardContent>
+          <CardFooter>
+            <form.AppForm>
+              <form.SubscribeButton label={submitButtonLabel ?? 'Submit'} />
+            </form.AppForm>
+          </CardFooter>
         </Card>
       </form>
     </div>
