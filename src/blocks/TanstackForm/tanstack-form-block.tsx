@@ -75,34 +75,34 @@ export const TanstackFormBlock = ({
     },
   })
 
-  console.log('confirmation messge:', confirmationMessage)
-
   return (
     <div className="max-w-lg mx-auto">
-      {confirmationMessage && confirmationType === 'message' && (
-        <form.Subscribe selector={(state) => [state.isSubmitSuccessful]}>
-          {([isSubmitSuccessful]) =>
-            !isSubmitSuccessful ? (
-              <>
-                {enableIntro && introContent && (
-                  <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
-                )}
-                {postError && (
-                  <div>{`${postError.status || '500'}: ${postError.message || ''}`}</div>
-                )}
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    form.handleSubmit()
-                  }}
-                >
-                  <Card className="@container">
-                    <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6">
-                      {fields &&
-                        fields?.map((field) => {
-                          if (!field || field.blockType === 'message') return null
-                          if (field.blockType === 'text')
+      {enableIntro && introContent && (
+        <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
+      )}
+      <form.Subscribe selector={(state) => [state.isSubmitSuccessful]}>
+        {([isSubmitSuccessful]) =>
+          isSubmitSuccessful && confirmationType === 'message' && confirmationMessage ? (
+            <RichText data={confirmationMessage} />
+          ) : (
+            <>
+              {postError && <div>{`${postError.status || '500'}: ${postError.message || ''}`}</div>}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  form.handleSubmit()
+                }}
+              >
+                <Card className="@container">
+                  <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6">
+                    {fields &&
+                      fields?.map((field) => {
+                        switch (field.blockType) {
+                          case 'message':
+                            return null
+
+                          case 'text':
                             return (
                               <form.AppField
                                 key={field.id}
@@ -122,7 +122,7 @@ export const TanstackFormBlock = ({
                                 )}
                               </form.AppField>
                             )
-                          if (field.blockType === 'email')
+                          case 'email':
                             return (
                               <form.AppField
                                 key={field.id}
@@ -142,7 +142,7 @@ export const TanstackFormBlock = ({
                                 )}
                               </form.AppField>
                             )
-                          if (field.blockType === 'phone')
+                          case 'phone':
                             return (
                               <form.AppField
                                 key={field.id}
@@ -174,7 +174,7 @@ export const TanstackFormBlock = ({
                                 )}
                               </form.AppField>
                             )
-                          if (field.blockType === 'textarea')
+                          case 'textarea':
                             return (
                               <form.AppField
                                 key={field.id}
@@ -194,22 +194,23 @@ export const TanstackFormBlock = ({
                                 )}
                               </form.AppField>
                             )
-                        })}
-                    </CardContent>
-                    <CardFooter>
-                      <form.AppForm>
-                        <form.SubscribeButton label={submitButtonLabel ?? 'Submit'} />
-                      </form.AppForm>
-                    </CardFooter>
-                  </Card>
-                </form>
-              </>
-            ) : (
-              <RichText data={confirmationMessage} />
-            )
-          }
-        </form.Subscribe>
-      )}
+                    
+                          default:
+                            break
+                        }                          
+                      })}
+                  </CardContent>
+                  <CardFooter>
+                    <form.AppForm>
+                      <form.SubscribeButton label={submitButtonLabel ?? 'Submit'} />
+                    </form.AppForm>
+                  </CardFooter>
+                </Card>
+              </form>
+            </>
+          )
+        }
+      </form.Subscribe>
     </div>
   )
 }
