@@ -9,6 +9,7 @@ import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 import RichText from '@/components/RichText'
 import { z } from 'zod'
+// import { ExampleFieldComponent } from './components/example-field-component'
 
 export const TanstackFormBlock = ({
   form: formFromProps,
@@ -95,13 +96,12 @@ export const TanstackFormBlock = ({
                 }}
               >
                 <Card className="@container">
-                  <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6">
+                  <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6 auto-cols-fr">
                     {fields &&
                       fields?.map((field) => {
                         switch (field.blockType) {
                           case 'message':
                             return null
-
                           case 'text':
                             return (
                               <form.AppField
@@ -194,11 +194,11 @@ export const TanstackFormBlock = ({
                                 )}
                               </form.AppField>
                             )
-                    
                           default:
                             break
-                        }                          
+                        }
                       })}
+                    {/* <ExampleFieldComponent key={field.id} field={field} form={form} fields={fields} /> */}
                   </CardContent>
                   <CardFooter>
                     <form.AppForm>
