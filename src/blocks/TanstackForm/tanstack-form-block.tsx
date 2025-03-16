@@ -77,7 +77,7 @@ export const TanstackFormBlock = ({
   })
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-2xl mx-auto">
       {enableIntro && introContent && (
         <RichText className="mb-8 lg:mb-12" data={introContent} enableGutter={false} />
       )}
@@ -187,6 +187,58 @@ export const TanstackFormBlock = ({
                               >
                                 {(formField) => (
                                   <formField.TextareaField
+                                    label={field.label ?? field.name}
+                                    width={field.width ?? 100}
+                                    id={field.id ?? field.name}
+                                  />
+                                )}
+                              </form.AppField>
+                            )
+                          case 'checkbox':
+                            return (
+                              <form.AppField
+                                key={field.id}
+                                name={field.name}
+                                validators={{
+                                  onChange: ({ value }) =>
+                                    field.required && Boolean(value) === false
+                                      ? 'Must check to continue'
+                                      : undefined,
+                                }}
+                              >
+                                {(formField) => (
+                                  <formField.CheckboxField
+                                    label={field.label ?? field.name}
+                                    width={field.width ?? 100}
+                                    id={field.id ?? field.name}
+                                  />
+                                )}
+                              </form.AppField>
+                            )
+                          case 'number':
+                            console.log('Default Value:', field.defaultValue)
+                            return (
+                              <form.AppField
+                                key={field.id}
+                                name={field.name}
+                                validators={{
+                                  onChange: field.required
+                                    ? z.coerce
+                                        .number()
+                                        .positive(
+                                          `${field.label || field.name} must be a positive number`,
+                                        )
+                                    : z.coerce
+                                        .number()
+                                        .positive(
+                                          `${field.label || field.name} must be a positive number`,
+                                        )
+                                        .or(z.literal(undefined))
+                                        .optional(),
+                                }}
+                              >
+                                {(formField) => (
+                                  <formField.NumberField
                                     label={field.label ?? field.name}
                                     width={field.width ?? 100}
                                     id={field.id ?? field.name}

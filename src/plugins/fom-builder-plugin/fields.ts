@@ -603,6 +603,8 @@ type ExtendedFieldsConfig = FieldsConfig & {
 
 export type { ExtendedFieldsConfig }
 
+export type FormFields = keyof typeof fields
+
 export const fields = {
   checkbox: Checkbox,
   country: Country,

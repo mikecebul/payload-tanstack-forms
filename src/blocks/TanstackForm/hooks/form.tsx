@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
 import TextareaField from '../components/textarea-field'
 import TextField from '../components/text-field'
+import CheckboxField from '../components/checkbox-field'
+import NumberField from '../components/number-field'
 // import { ExampleFieldComponent, ExampleField } from '../components/example-field-component'
 
 function SubscribeButton({ label }: { label: string }) {
@@ -25,6 +27,8 @@ export const { useAppForm, withForm } = createFormHook({
   fieldComponents: {
     TextField,
     TextareaField,
+    CheckboxField,
+    NumberField,
   },
   formComponents: {
     SubscribeButton,
