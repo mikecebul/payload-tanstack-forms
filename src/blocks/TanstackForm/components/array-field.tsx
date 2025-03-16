@@ -95,13 +95,7 @@ export const ArrayFieldComponent = ({
                         )
                       })}
 
-                    <Button
-                      onClick={() =>
-                        // @ts-expect-error
-                        field.pushValue(defaultValues)
-                      }
-                      type="button"
-                    >
+                    <Button onClick={() => field.pushValue(defaultValues)} type="button">
                       Add person
                     </Button>
                   </div>
