@@ -57,9 +57,11 @@ export const plugins: Plugin[] = [
   }),
   formBuilderPlugin({
     fields: {
+      checkbox: fields.checkbox,
       payment: false,
       phone: fields.phone,
       textarea: true,
+      array: fields.array,
     },
     formOverrides: {
       fields: ({ defaultFields }) => {

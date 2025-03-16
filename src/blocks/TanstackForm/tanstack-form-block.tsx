@@ -9,6 +9,7 @@ import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 import RichText from '@/components/RichText'
 import { z } from 'zod'
+import { ArrayFieldComponent } from './components/array-field'
 // import { ExampleFieldComponent } from './components/example-field-component'
 
 export const TanstackFormBlock = ({
@@ -30,6 +31,7 @@ export const TanstackFormBlock = ({
   const form = useAppForm({
     ...defaultValuesOpts(fields),
     onSubmit: async ({ value: data }) => {
+      console.log('Submit data:', data)
       setPostError(undefined)
       const dataToSend = Object.entries(data).map(([name, value]) => ({
         field: name,
@@ -202,7 +204,9 @@ export const TanstackFormBlock = ({
                                 validators={{
                                   onChange: ({ value }) =>
                                     field.required && Boolean(value) === false
-                                      ? 'Must check to continue'
+                                      ? field.errorMsg?.length
+                                        ? field.errorMsg
+                                        : 'Must check to continue'
                                       : undefined,
                                 }}
                               >
@@ -216,7 +220,6 @@ export const TanstackFormBlock = ({
                               </form.AppField>
                             )
                           case 'number':
-                            console.log('Default Value:', field.defaultValue)
                             return (
                               <form.AppField
                                 key={field.id}
@@ -246,6 +249,8 @@ export const TanstackFormBlock = ({
                                 )}
                               </form.AppField>
                             )
+                          case 'array':
+                            return <ArrayFieldComponent key={field.id} form={form} field={field} />
                           default:
                             break
                         }

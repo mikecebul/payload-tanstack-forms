@@ -158,7 +158,7 @@ const Text: Block = {
   },
 }
 
-const TextArea: Block = {
+const Textarea: Block = {
   slug: 'textarea',
   fields: [
     {
@@ -370,7 +370,9 @@ const Checkbox: Block = {
           },
         },
         {
-          ...required,
+          name: 'errorMsg',
+          type: 'text',
+          label: 'Error Message',
           admin: {
             width: '50%',
           },
@@ -378,9 +380,23 @@ const Checkbox: Block = {
       ],
     },
     {
-      name: 'defaultValue',
-      type: 'checkbox',
-      label: 'Default Value',
+      type: 'row',
+      fields: [
+        {
+          name: 'defaultValue',
+          type: 'checkbox',
+          label: 'Default Value',
+          admin: {
+            width: '33%',
+          },
+        },
+        {
+          ...required,
+          admin: {
+            width: '33%',
+          },
+        },
+      ],
     },
   ],
   labels: {
@@ -597,8 +613,94 @@ const Phone: Block = {
   },
 }
 
+export const ArrayBlock: Block = {
+  slug: 'array',
+  interfaceName: 'ArrayFormField',
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          ...name,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'label',
+          type: 'text',
+          label: 'Array Item Label',
+          required: true,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Array Title',
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'description',
+          type: 'text',
+          label: 'Array Description',
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          ...width,
+          defaultValue: 100,
+          admin: {
+            width: '33%',
+          },
+        },
+        {
+          name: 'minRows',
+          type: 'number',
+          label: 'Minimum Rows',
+          required: true,
+          defaultValue: 1,
+          admin: {
+            width: '33%',
+          },
+        },
+        {
+          name: 'maxRows',
+          type: 'number',
+          label: 'Maximum Rows',
+          required: true,
+          defaultValue: 4,
+          admin: {
+            width: '33%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'blocks',
+      name: 'fields',
+      label: 'Fields',
+      blocks: [Text, Textarea, Email, Number, Checkbox, Phone],
+    },
+  ],
+}
 type ExtendedFieldsConfig = FieldsConfig & {
   phone: typeof Phone
+  array: typeof ArrayBlock
 }
 
 export type { ExtendedFieldsConfig }
@@ -615,6 +717,7 @@ export const fields = {
   select: Select,
   state: State,
   text: Text,
-  textarea: TextArea,
+  textarea: Textarea,
   phone: Phone,
+  array: ArrayBlock,
 } as ExtendedFieldsConfig
