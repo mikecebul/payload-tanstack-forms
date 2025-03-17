@@ -11,6 +11,11 @@ This is a customized version of the official [Payload Website Template](https://
   - Array fields with dynamic input handling
 - Customize original fields as well
 
+## TODO
+- [ ] Add **motion.dev** animations.
+- [ ] Add **React Email** with richtext blocks.
+- [ ] add **Mailpit** for viewing emails in email client.
+
 ## Quick Start
 To spin up this example locally, follow these steps:
 
@@ -32,8 +37,3 @@ docker-compose up -d
 ```sh
 pnpm dev --turbo
 ```
-
-## TODO
-- Integrate **motion.dev** animations.
-- Improve **React Email** with additional templates.
-- Enhance form UX and validation with TanStack Form.
