@@ -24,7 +24,10 @@ cd <your-repo-folder>
 ```sh
 pnpm i
 ```
-
+### Run MongoBD in Docker
+```sh
+docker-compose up -d
+```
 ### Run the Development Server
 ```sh
 pnpm dev --turbo
