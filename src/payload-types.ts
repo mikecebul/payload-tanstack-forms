@@ -763,44 +763,42 @@ export interface ArrayFormField {
   width?: number | null;
   minRows: number;
   maxRows: number;
-  fields?:
-    | (
-        | TextFormField
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textarea';
-          }
-        | EmailFormField
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'number';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            errorMsg?: string | null;
-            defaultValue?: boolean | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'checkbox';
-          }
-        | PhoneFormField
-      )[]
-    | null;
+  fields: (
+    | TextFormField
+    | {
+        name: string;
+        label?: string | null;
+        width?: number | null;
+        defaultValue?: string | null;
+        required?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'textarea';
+      }
+    | EmailFormField
+    | {
+        name: string;
+        label?: string | null;
+        width?: number | null;
+        defaultValue?: number | null;
+        required?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'number';
+      }
+    | {
+        name: string;
+        label?: string | null;
+        width?: number | null;
+        errorMsg?: string | null;
+        defaultValue?: boolean | null;
+        required?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'checkbox';
+      }
+    | PhoneFormField
+  )[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'array';

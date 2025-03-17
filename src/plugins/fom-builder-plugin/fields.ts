@@ -1,5 +1,5 @@
 import type { Block, Field } from 'payload'
-import { FieldsConfig, PaymentFieldConfig } from '@payloadcms/plugin-form-builder/types'
+import { PaymentFieldConfig } from '@payloadcms/plugin-form-builder/types'
 
 const name: Field = {
   name: 'name',
@@ -697,6 +697,7 @@ export const ArrayBlock: Block = {
       type: 'blocks',
       name: 'fields',
       label: 'Fields',
+      required: true,
       blocks: [Text, Textarea, Email, Number, Checkbox, Phone],
     },
   ],
