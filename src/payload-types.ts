@@ -581,15 +581,7 @@ export interface Form {
             blockName?: string | null;
             blockType: 'country';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'email';
-          }
+        | EmailFormField
         | {
             message?: {
               root: {
@@ -646,16 +638,7 @@ export interface Form {
             blockName?: string | null;
             blockType: 'state';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'text';
-          }
+        | TextFormField
         | {
             name: string;
             label?: string | null;
@@ -666,15 +649,7 @@ export interface Form {
             blockName?: string | null;
             blockType: 'textarea';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'phone';
-          }
+        | PhoneFormField
         | ArrayFormField
       )[]
     | null;
@@ -738,6 +713,46 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailFormField".
+ */
+export interface EmailFormField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'email';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextFormField".
+ */
+export interface TextFormField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  defaultValue?: string | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhoneFormField".
+ */
+export interface PhoneFormField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'phone';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ArrayFormField".
  */
 export interface ArrayFormField {
@@ -750,16 +765,7 @@ export interface ArrayFormField {
   maxRows: number;
   fields?:
     | (
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'text';
-          }
+        | TextFormField
         | {
             name: string;
             label?: string | null;
@@ -770,15 +776,7 @@ export interface ArrayFormField {
             blockName?: string | null;
             blockType: 'textarea';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'email';
-          }
+        | EmailFormField
         | {
             name: string;
             label?: string | null;
@@ -800,15 +798,7 @@ export interface ArrayFormField {
             blockName?: string | null;
             blockType: 'checkbox';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'phone';
-          }
+        | PhoneFormField
       )[]
     | null;
   id?: string | null;
@@ -1411,16 +1401,7 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        email?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        email?: T | EmailFormFieldSelect<T>;
         message?:
           | T
           | {
@@ -1467,17 +1448,7 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        text?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextFormFieldSelect<T>;
         textarea?:
           | T
           | {
@@ -1489,16 +1460,7 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        phone?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        phone?: T | PhoneFormFieldSelect<T>;
         array?: T | ArrayFormFieldSelect<T>;
       };
   submitButtonLabel?: T;
@@ -1526,6 +1488,43 @@ export interface FormsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailFormField_select".
+ */
+export interface EmailFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextFormField_select".
+ */
+export interface TextFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhoneFormField_select".
+ */
+export interface PhoneFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ArrayFormField_select".
  */
 export interface ArrayFormFieldSelect<T extends boolean = true> {
@@ -1539,17 +1538,7 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
   fields?:
     | T
     | {
-        text?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        text?: T | TextFormFieldSelect<T>;
         textarea?:
           | T
           | {
@@ -1561,16 +1550,7 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        email?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        email?: T | EmailFormFieldSelect<T>;
         number?:
           | T
           | {
@@ -1594,16 +1574,7 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        phone?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        phone?: T | PhoneFormFieldSelect<T>;
       };
   id?: T;
   blockName?: T;

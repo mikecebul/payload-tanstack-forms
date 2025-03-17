@@ -1,16 +1,15 @@
 'use client'
 
 import { useAppForm } from './hooks/form'
-import { defaultValuesOpts } from './form-options'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
-import { FormBlock } from '@/payload-types'
+import type { FormBlock } from '@/payload-types'
 import { useState } from 'react'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 import RichText from '@/components/RichText'
 import { z } from 'zod'
-import { ArrayFieldComponent } from './components/array-field'
-// import { ExampleFieldComponent } from './components/example-field-component'
+import { ArrayFieldComponent } from './form-components/array-field'
+import { getDefaultValuesOpts } from './form-options'
 
 export const TanstackFormBlock = ({
   form: formFromProps,
@@ -27,9 +26,10 @@ export const TanstackFormBlock = ({
   } = typeof formFromProps !== 'string' ? formFromProps : {}
   const [postError, setPostError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
+  // const defaultValues = useDefaultValues()
 
   const form = useAppForm({
-    ...defaultValuesOpts(fields),
+    ...getDefaultValuesOpts(fields),
     onSubmit: async ({ value: data }) => {
       console.log('Submit data:', data)
       setPostError(undefined)
@@ -115,13 +115,7 @@ export const TanstackFormBlock = ({
                                     : z.string().optional(),
                                 }}
                               >
-                                {(formField) => (
-                                  <formField.TextField
-                                    label={field.label ?? field.name}
-                                    width={field.width ?? 100}
-                                    id={field.id ?? field.name}
-                                  />
-                                )}
+                                {(formField) => <formField.TextField {...field} />}
                               </form.AppField>
                             )
                           case 'email':
@@ -135,13 +129,7 @@ export const TanstackFormBlock = ({
                                     : z.string().email().optional(),
                                 }}
                               >
-                                {(formField) => (
-                                  <formField.TextField
-                                    label={field.label ?? field.name}
-                                    width={field.width ?? 100}
-                                    id={field.id ?? field.name}
-                                  />
-                                )}
+                                {(formField) => <formField.EmailField {...field} />}
                               </form.AppField>
                             )
                           case 'phone':
@@ -167,13 +155,7 @@ export const TanstackFormBlock = ({
                                         .optional(),
                                 }}
                               >
-                                {(formField) => (
-                                  <formField.TextField
-                                    label={field.label ?? field.name}
-                                    width={field.width ?? 100}
-                                    id={field.id ?? field.name}
-                                  />
-                                )}
+                                {(formField) => <formField.PhoneField {...field} />}
                               </form.AppField>
                             )
                           case 'textarea':
@@ -250,7 +232,14 @@ export const TanstackFormBlock = ({
                               </form.AppField>
                             )
                           case 'array':
-                            return <ArrayFieldComponent key={field.id} form={form} field={field} />
+                            return (
+                              <ArrayFieldComponent
+                                key={field.id}
+                                form={form}
+                                field={field}
+                                fields={fields}
+                              />
+                            )
                           default:
                             break
                         }

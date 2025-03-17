@@ -8,6 +8,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 // import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { TanstackFormBlock } from './TanstackForm/tanstack-form-block'
+import { ParentForm } from './TanstackForm/parent-form'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -15,6 +16,7 @@ const blockComponents = {
   cta: CallToActionBlock,
   // formBlock: FormBlock,
   formBlock: TanstackFormBlock,
+  // formBlock: ParentForm,
   mediaBlock: MediaBlock,
 }
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { formOptions } from '@tanstack/react-form'
 import type { Form } from '@/payload-types'
 
@@ -11,13 +13,13 @@ const getDefaultValuesForArrayItem = (fields: Form['fields']) => {
       let value: string | number | boolean
       switch (field.blockType) {
         case 'number':
-          value = 0
+          value = !!field.defaultValue ? Number(field.defaultValue) : 0
           break
         case 'checkbox':
-          value = false
+          value = !!field.defaultValue ? Boolean(field.defaultValue) : false
           break
         default:
-          value = ''
+          value = 'defaultValue' in field && !!field.defaultValue ? field.defaultValue : ''
       }
       defaultItem[field.name] = value
     }
@@ -26,7 +28,7 @@ const getDefaultValuesForArrayItem = (fields: Form['fields']) => {
   return defaultItem
 }
 
-export const defaultValuesOpts = (fields: Form['fields']) => {
+export const getDefaultValuesOpts = (fields: Form['fields']) => {
   const defaultValues: Record<string, string | number | boolean | any[] | undefined> = {}
 
   if (fields) {
@@ -52,7 +54,6 @@ export const defaultValuesOpts = (fields: Form['fields']) => {
     })
   }
 
-  // console.log('Default Fields:', defaultValues)
   return formOptions({
     defaultValues,
   })

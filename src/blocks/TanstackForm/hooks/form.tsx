@@ -4,12 +4,13 @@ import { createFormHook } from '@tanstack/react-form'
 import { fieldContext, formContext, useFormContext } from './form-context'
 import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
-import TextareaField from '../components/textarea-field'
-import TextField from '../components/text-field'
-import CheckboxField from '../components/checkbox-field'
-import NumberField from '../components/number-field'
-import { ArrayFieldComponent } from '../components/array-field'
-// import { ExampleFieldComponent, ExampleField } from '../components/example-field-component'
+import TextareaField from '../field-components/textarea-field'
+import TextField from '../field-components/text-field'
+import CheckboxField from '../field-components/checkbox-field'
+import NumberField from '../field-components/number-field'
+import { ArrayFieldComponent } from '../form-components/array-field'
+import EmailField from '../field-components/email-field'
+import PhoneField from '../field-components/phone-field'
 
 function SubscribeButton({ label }: { label: string }) {
   const form = useFormContext()
@@ -30,37 +31,13 @@ export const { useAppForm, withForm } = createFormHook({
     TextareaField,
     CheckboxField,
     NumberField,
+    EmailField,
+    PhoneField,
   },
   formComponents: {
     SubscribeButton,
     ArrayFieldComponent,
-    // TextFieldComponent,
   },
   fieldContext,
   formContext,
-})
-
-export const ChildForm = withForm({
-  defaultValues: {
-    firstName: 'John',
-    lastName: 'Doe',
-  },
-  // Optional, but adds props to the `render` function in addition to `form`
-  props: {
-    // These props are also set as default values for the `render` function
-    title: 'Child Form',
-  },
-  render: function Render({ form, title }) {
-    return (
-      <div>
-        <p>{title}</p>
-        <form.AppField name="firstName">
-          {(field) => <field.TextField id="123" width={100} label="First Name" />}
-        </form.AppField>
-        <form.AppForm>
-          <form.SubscribeButton label="Submit" />
-        </form.AppForm>
-      </div>
-    )
-  },
 })

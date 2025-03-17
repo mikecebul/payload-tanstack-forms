@@ -112,6 +112,7 @@ const Select: Block = {
 
 const Text: Block = {
   slug: 'text',
+  interfaceName: 'TextFormField',
   fields: [
     {
       type: 'row',
@@ -255,6 +256,7 @@ const Number: Block = {
 
 const Email: Block = {
   slug: 'email',
+  interfaceName: 'EmailFormField',
   fields: [
     {
       type: 'row',
@@ -586,6 +588,7 @@ const Message: Block = {
 
 const Phone: Block = {
   slug: 'phone',
+  interfaceName: 'PhoneFormField',
   fields: [
     {
       type: 'row',
@@ -698,12 +701,6 @@ export const ArrayBlock: Block = {
     },
   ],
 }
-type ExtendedFieldsConfig = FieldsConfig & {
-  phone: typeof Phone
-  array: typeof ArrayBlock
-}
-
-export type { ExtendedFieldsConfig }
 
 export type FormFields = keyof typeof fields
 
@@ -720,4 +717,4 @@ export const fields = {
   textarea: Textarea,
   phone: Phone,
   array: ArrayBlock,
-} as ExtendedFieldsConfig
+}

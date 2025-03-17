@@ -58,6 +58,8 @@ export const plugins: Plugin[] = [
   formBuilderPlugin({
     fields: {
       checkbox: fields.checkbox,
+      text: fields.text,
+      email: fields.email,
       payment: false,
       phone: fields.phone,
       textarea: true,
