@@ -24,7 +24,7 @@ cd <your-repo-folder>
 ```sh
 pnpm i
 ```
-### Run MongoBD in Docker
+### Run MongoDB in Docker
 ```sh
 docker-compose up -d
 ```
