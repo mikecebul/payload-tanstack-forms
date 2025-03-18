@@ -87,6 +87,26 @@ export const plugins: Plugin[] = [
         })
       },
     },
+    formSubmissionOverrides: {
+      admin: {
+        useAsTitle: 'createdAt',
+      },
+      fields: () => [
+        {
+          name: 'formType',
+          type: 'text',
+        },
+        {
+          name: 'submissionData',
+          type: 'json',
+          // admin: {
+          //   components: {
+          //     Field: '@/plugins/form-builder-plugin/FormData',
+          //   },
+          // },
+        },
+      ],
+    },
   }),
   searchPlugin({
     collections: ['posts'],
