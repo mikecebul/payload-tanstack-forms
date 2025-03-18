@@ -26,6 +26,7 @@ export default function CheckboxField({
         <Checkbox
           id={id}
           checked={field.state.value ?? false}
+          onBlur={() => field.handleBlur()}
           onCheckedChange={(checked) => field.handleChange(!!checked)}
         />
         <Label htmlFor={id}>{label}</Label>

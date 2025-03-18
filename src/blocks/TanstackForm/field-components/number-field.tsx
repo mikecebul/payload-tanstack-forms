@@ -17,7 +17,7 @@ export default function NumberField({
 }) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errorMap['onChange'])
-  
+
   return (
     <div className={cn('col-span-2', { '@md:col-span-1': width === 50 })}>
       <div className={cn('grid gap-2 w-full')}>
@@ -26,6 +26,7 @@ export default function NumberField({
           id={id}
           type="number"
           value={field.state.value}
+          onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
         />
       </div>

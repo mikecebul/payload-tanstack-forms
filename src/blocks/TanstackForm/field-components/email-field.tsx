@@ -19,6 +19,7 @@ export default function EmailField({ label, name, width }: EmailFormField) {
           id={name}
           type="email"
           value={field.state.value}
+          onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
         />
       </div>

@@ -25,6 +25,7 @@ export default function TextareaField({
         <Textarea
           id={id}
           value={field.state.value}
+          onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
         />
       </div>

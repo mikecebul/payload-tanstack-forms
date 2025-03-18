@@ -19,6 +19,7 @@ export default function PhoneField({ label, name, width }: PhoneFormField) {
           id={name}
           type="text"
           value={field.state.value}
+          onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
         />
       </div>

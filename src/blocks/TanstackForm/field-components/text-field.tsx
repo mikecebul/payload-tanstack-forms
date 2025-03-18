@@ -19,6 +19,7 @@ export default function TextField({ id, label, name, width }: TextFormField) {
           id={id ?? name}
           type="text"
           value={field.state.value}
+          onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
         />
       </div>
