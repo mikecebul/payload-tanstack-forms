@@ -703,6 +703,44 @@ export const ArrayBlock: Block = {
   ],
 }
 
+export const Group: Block = {
+  slug: 'group',
+  interfaceName: 'GroupFormField',
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          ...name,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Title',
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Description',
+    },
+    {
+      type: 'blocks',
+      name: 'fields',
+      label: 'Fields',
+      required: true,
+      blocks: [Text, Textarea, Email, Number, Checkbox, Phone, ArrayBlock],
+    },
+  ],
+}
+
 export type FormFields = keyof typeof fields
 
 export const fields = {
@@ -718,4 +756,5 @@ export const fields = {
   textarea: Textarea,
   phone: Phone,
   array: ArrayBlock,
+  group: Group,
 }

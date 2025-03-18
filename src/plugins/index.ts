@@ -64,6 +64,7 @@ export const plugins: Plugin[] = [
       phone: fields.phone,
       textarea: true,
       array: fields.array,
+      group: fields.group,
     },
     formOverrides: {
       fields: ({ defaultFields }) => {

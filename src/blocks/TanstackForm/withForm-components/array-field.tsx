@@ -13,6 +13,8 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { getDefaultValuesOpts } from '../form-options'
+import { RenderFields } from '../render-fields'
+import { cn } from '@/utilities/ui'
 
 export const ArrayFieldComponent = ({
   form,
@@ -56,36 +58,32 @@ export const ArrayFieldComponent = ({
                   {Array.isArray(field.state.value) &&
                     field.state.value.map((_, i) => (
                       // Map through each array item
-                      <Card key={i}>
-                        <CardHeader className="">
-                          <CardDescription>{`${label} ${i + 1}`}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-3">
+                      <Card
+                        key={i}
+                        className={cn('', {
+                          'p-0 pb-2shadow-none border-none': arrayFields.length < 2,
+                        })}
+                      >
+                        {arrayFields.length > 1 && (
+                          <CardHeader className="">
+                            <CardDescription>{`${label} ${i + 1}`}</CardDescription>
+                          </CardHeader>
+                        )}
+                        <CardContent
+                          className={cn('space-y-3', {
+                            'p-0 pb-2': arrayFields.length < 2,
+                          })}
+                        >
                           {arrayFields?.map((field) => {
-                            // Map through fields for each array item
-                            if (field.blockType === 'text') {
-                              return (
-                                <form.AppField
-                                  key={`${fieldName}[${i}].${field.name}`}
-                                  name={`${fieldName}[${i}].${field.name}`}
-                                  validators={{
-                                    onChange: field.required
-                                      ? z
-                                          .string()
-                                          .min(1, `${field.label || field.name} is required`)
-                                      : z.string().optional(),
-                                  }}
-                                >
-                                  {(subField) => (
-                                    <subField.TextField
-                                      {...field}
-                                      id={`${fieldName}[${i}].${field.name}`}
-                                      name={`${fieldName}[${i}].${field.name}`}
-                                    />
-                                  )}
-                                </form.AppField>
-                              )
-                            }
+                            const newField = { ...field, label: `${field.label} ${i + 1}` }
+                            return (
+                              <RenderFields
+                                key={field.id}
+                                field={arrayFields.length < 2 ? newField : field}
+                                fields={fields}
+                                form={form}
+                              />
+                            )
                           })}
                         </CardContent>
                       </Card>
@@ -105,7 +103,6 @@ export const ArrayFieldComponent = ({
               )}
             </form.AppField>
           </CardContent>
-          <CardFooter className="px-0"></CardFooter>
         </div>
       )
     },

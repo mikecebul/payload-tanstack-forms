@@ -46,6 +46,8 @@ export const getDefaultValuesOpts = (fields: Form['fields']) => {
           case 'array':
             defaultValue = field.fields ? [getDefaultValuesForArrayItem(field.fields)] : []
             break
+          case 'group':
+            getDefaultValuesOpts(field.fields)
           default:
             defaultValue = 'defaultValue' in field && !!field.defaultValue ? field.defaultValue : ''
         }

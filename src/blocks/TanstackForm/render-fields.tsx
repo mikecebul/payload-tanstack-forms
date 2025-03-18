@@ -3,6 +3,7 @@ import { FormField, getDefaultValuesOpts } from './form-options'
 import { withForm } from './hooks/form'
 import { z } from 'zod'
 import { ArrayFieldComponent } from './withForm-components/array-field'
+import { GroupFieldComponent } from './withForm-components/group-field'
 
 export const RenderFields = ({
   field,
@@ -148,6 +149,8 @@ export const RenderFields = ({
           )
         case 'array':
           return <ArrayFieldComponent key={field.id} form={form} field={field} fields={fields} />
+        case 'group':
+          return <GroupFieldComponent key={field.id} form={form} field={field} fields={fields} />
         default:
           return <></>
       }
