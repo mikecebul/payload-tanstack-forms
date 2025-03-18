@@ -651,7 +651,6 @@ export interface Form {
           }
         | PhoneFormField
         | ArrayFormField
-        | GroupFormField
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -803,55 +802,6 @@ export interface ArrayFormField {
   id?: string | null;
   blockName?: string | null;
   blockType: 'array';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "GroupFormField".
- */
-export interface GroupFormField {
-  name: string;
-  title?: string | null;
-  description?: string | null;
-  fields: (
-    | TextFormField
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        defaultValue?: string | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'textarea';
-      }
-    | EmailFormField
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        defaultValue?: number | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'number';
-      }
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        errorMsg?: string | null;
-        defaultValue?: boolean | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'checkbox';
-      }
-    | PhoneFormField
-    | ArrayFormField
-  )[];
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'group';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1510,7 +1460,6 @@ export interface FormsSelect<T extends boolean = true> {
             };
         phone?: T | PhoneFormFieldSelect<T>;
         array?: T | ArrayFormFieldSelect<T>;
-        group?: T | GroupFormFieldSelect<T>;
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1624,59 +1573,6 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
               blockName?: T;
             };
         phone?: T | PhoneFormFieldSelect<T>;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "GroupFormField_select".
- */
-export interface GroupFormFieldSelect<T extends boolean = true> {
-  name?: T;
-  title?: T;
-  description?: T;
-  fields?:
-    | T
-    | {
-        text?: T | TextFormFieldSelect<T>;
-        textarea?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        email?: T | EmailFormFieldSelect<T>;
-        number?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        checkbox?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              errorMsg?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        phone?: T | PhoneFormFieldSelect<T>;
-        array?: T | ArrayFormFieldSelect<T>;
       };
   id?: T;
   blockName?: T;
