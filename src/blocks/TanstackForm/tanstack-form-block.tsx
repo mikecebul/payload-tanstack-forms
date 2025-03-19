@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 import RichText from '@/components/RichText'
-import { getDefaultValuesOpts } from './form-options'
+import { getFormOpts } from './form-options'
 import { useStore } from '@tanstack/react-form'
 import { RenderFields } from './render-fields'
 
@@ -20,28 +20,24 @@ export const TanstackFormBlock = ({
     confirmationMessage,
     confirmationType,
     fields,
-    id: formId,
+    title,
     redirect,
     submitButtonLabel,
   } = typeof formFromProps !== 'string' ? formFromProps : {}
   const [postError, setPostError] = useState<{ message: string; status?: string } | undefined>()
   const router = useRouter()
+  const {defaultValues} = getFormOpts(fields)
 
   const form = useAppForm({
-    ...getDefaultValuesOpts(fields),
+    ...getFormOpts(fields),
     onSubmit: async ({ value: data }) => {
-      console.log('Submit data:', data)
       setPostError(undefined)
-      const dataToSend = Object.entries(data).map(([name, value]) => ({
-        field: name,
-        value,
-      }))
 
       try {
         const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
           body: JSON.stringify({
-            form: formId,
-            submissionData: dataToSend,
+            form: title,
+            submissionData: data,
           }),
           headers: {
             'Content-Type': 'application/json',
@@ -97,10 +93,9 @@ export const TanstackFormBlock = ({
           >
             <Card className="@container">
               <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6 auto-cols-fr">
-                {fields &&
-                  fields?.map((field) => (
-                    <RenderFields key={field.id} field={field} fields={fields} form={form} />
-                  ))}
+                {fields?.map((field) => (
+                  <RenderFields key={field.id} field={field} defaultValues={defaultValues} form={form} />
+                ))}
               </CardContent>
               <CardFooter>
                 <form.AppForm>

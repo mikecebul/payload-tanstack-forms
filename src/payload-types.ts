@@ -651,6 +651,7 @@ export interface Form {
           }
         | PhoneFormField
         | ArrayFormField
+        | GroupFormField
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -805,6 +806,55 @@ export interface ArrayFormField {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GroupFormField".
+ */
+export interface GroupFormField {
+  name: string;
+  title?: string | null;
+  description?: string | null;
+  fields: (
+    | TextFormField
+    | {
+        name: string;
+        label?: string | null;
+        width?: number | null;
+        defaultValue?: string | null;
+        required?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'textarea';
+      }
+    | EmailFormField
+    | {
+        name: string;
+        label?: string | null;
+        width?: number | null;
+        defaultValue?: number | null;
+        required?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'number';
+      }
+    | {
+        name: string;
+        label?: string | null;
+        width?: number | null;
+        errorMsg?: string | null;
+        defaultValue?: boolean | null;
+        required?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'checkbox';
+      }
+    | PhoneFormField
+    | ArrayFormField
+  )[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'group';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -835,13 +885,15 @@ export interface Redirect {
  */
 export interface FormSubmission {
   id: string;
-  form: string | Form;
+  form?: string | null;
   submissionData?:
     | {
-        field: string;
-        value: string;
-        id?: string | null;
-      }[]
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
     | null;
   updatedAt: string;
   createdAt: string;
@@ -1460,6 +1512,7 @@ export interface FormsSelect<T extends boolean = true> {
             };
         phone?: T | PhoneFormFieldSelect<T>;
         array?: T | ArrayFormFieldSelect<T>;
+        group?: T | GroupFormFieldSelect<T>;
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1579,17 +1632,64 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "GroupFormField_select".
+ */
+export interface GroupFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  title?: T;
+  description?: T;
+  fields?:
+    | T
+    | {
+        text?: T | TextFormFieldSelect<T>;
+        textarea?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        email?: T | EmailFormFieldSelect<T>;
+        number?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        checkbox?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              errorMsg?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        phone?: T | PhoneFormFieldSelect<T>;
+        array?: T | ArrayFormFieldSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions_select".
  */
 export interface FormSubmissionsSelect<T extends boolean = true> {
   form?: T;
-  submissionData?:
-    | T
-    | {
-        field?: T;
-        value?: T;
-        id?: T;
-      };
+  submissionData?: T;
   updatedAt?: T;
   createdAt?: T;
 }

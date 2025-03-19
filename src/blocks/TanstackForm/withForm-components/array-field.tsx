@@ -1,31 +1,23 @@
 'use client'
 
 import { withForm } from '../hooks/form'
-import type { ArrayFormField, Form } from '@/payload-types'
-import {
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card'
-import { z } from 'zod'
+import type { ArrayFormField } from '@/payload-types'
+import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { getDefaultValuesOpts } from '../form-options'
+import { DefaultValues } from '../form-options'
 import { RenderFields } from '../render-fields'
 import { cn } from '@/utilities/ui'
 
 export const ArrayFieldComponent = ({
+  defaultValues,
+  field: { fields: arrayFields, description, name: arrayFieldName, label, title },
   form,
-  field: { fields: arrayFields, description, name: fieldName, label, title },
-  fields,
 }: {
-  form: any
+  defaultValues: DefaultValues
   field: ArrayFormField
-  fields: Form['fields']
+  form: any
 }) => {
-  const { defaultValues } = getDefaultValuesOpts(fields)
 
   const FieldComponent = withForm({
     defaultValues,
@@ -34,13 +26,13 @@ export const ArrayFieldComponent = ({
         arrayFields,
         title,
         description,
-        fieldName,
+        arrayFieldName,
         label,
       },
     },
     render: function Render({
       form,
-      field: { arrayFields, title, description, fieldName, label },
+      field: { arrayFields, title, description, arrayFieldName, label },
     }) {
       return (
         <div className="@container col-span-2">
@@ -52,7 +44,7 @@ export const ArrayFieldComponent = ({
           )}
           <CardContent className="grid grid-cols-1 gap-4 @md:grid-cols-2 auto-cols-fr px-0">
             {/* Array Field Context */}
-            <form.AppField name={fieldName} mode="array">
+            <form.AppField name={arrayFieldName} mode="array">
               {(field) => (
                 <div className="space-y-3 col-span-2">
                   {Array.isArray(field.state.value) &&
@@ -75,12 +67,17 @@ export const ArrayFieldComponent = ({
                           })}
                         >
                           {arrayFields?.map((field) => {
-                            const newField = { ...field, label: `${field.label} ${i + 1}` }
+                            const newField = {
+                              ...field,
+                              name: `${arrayFieldName}[${i}].${field.name}`,
+                              label:
+                                arrayFields.length < 2 ? `${field.label} ${i + 1}` : field.label,
+                            }
                             return (
                               <RenderFields
                                 key={field.id}
-                                field={arrayFields.length < 2 ? newField : field}
-                                fields={fields}
+                                field={newField}
+                                defaultValues={defaultValues}
                                 form={form}
                               />
                             )
@@ -92,7 +89,9 @@ export const ArrayFieldComponent = ({
                   <Button
                     onClick={() =>
                       field.pushValue(
-                        Array.isArray(defaultValues[fieldName]) ? defaultValues[fieldName][0] : {},
+                        Array.isArray(defaultValues[arrayFieldName])
+                          ? defaultValues[arrayFieldName][0]
+                          : {},
                       )
                     }
                     type="button"
@@ -113,7 +112,7 @@ export const ArrayFieldComponent = ({
       field={{
         arrayFields,
         description,
-        fieldName,
+        arrayFieldName,
         label,
         title,
       }}

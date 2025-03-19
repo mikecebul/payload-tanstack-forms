@@ -93,17 +93,17 @@ export const plugins: Plugin[] = [
       },
       fields: () => [
         {
-          name: 'formType',
+          name: 'form',
           type: 'text',
         },
         {
           name: 'submissionData',
           type: 'json',
-          // admin: {
-          //   components: {
-          //     Field: '@/plugins/form-builder-plugin/FormData',
-          //   },
-          // },
+          admin: {
+            components: {
+              Field: '@/plugins/form-builder-plugin/FormData',
+            },
+          },
         },
       ],
     },
