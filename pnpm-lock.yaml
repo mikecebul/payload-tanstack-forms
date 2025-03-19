@@ -54,8 +54,8 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2(@types/react@19.0.10)(react@19.0.0)
       '@tanstack/react-form':
-        specifier: ^1.0.5
-        version: 1.0.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
+        specifier: 1.1.0
+        version: 1.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
@@ -1587,11 +1587,11 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20 || >=4.0.0-beta.1'
 
-  '@tanstack/form-core@1.0.5':
-    resolution: {integrity: sha512-jLwdYKFTfdf9DcNLi9QS6sdHV3NsEsfWR0LHc5qosFfGS8WXQ/EAm8yr88jZyV4gvEO8XE8W2Sf7i4VAZnxxCQ==}
+  '@tanstack/form-core@1.1.0':
+    resolution: {integrity: sha512-RfRv+grnTzQhG6UyjhA+t9zyx0mSjaowyVzuo2qb4NR2Pc73zoNA5WKEAUhjwONlXrLSSs0h9LE0vJDbk8kYrQ==}
 
-  '@tanstack/react-form@1.0.5':
-    resolution: {integrity: sha512-4e9Au0s2Uk7f2nlY0olte5s8k8vZHLjmqvRoVyw+rjzt0clDnryNJu3ZHuOaUcyG0vOG/Ame84q2voyImBKzFQ==}
+  '@tanstack/react-form@1.1.0':
+    resolution: {integrity: sha512-vvFM2T4pDO1+96LUaSprTqZq2e0JFIGV1Qpr7PVHaFJlSqunmmVX0uiW6tW4xfCesUodSjW0evgPNVO+FSsu5Q==}
     peerDependencies:
       '@tanstack/react-start': ^1.112.0
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -6056,14 +6056,14 @@ snapshots:
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.0.14
 
-  '@tanstack/form-core@1.0.5':
+  '@tanstack/form-core@1.1.0':
     dependencies:
       '@tanstack/store': 0.7.0
 
-  '@tanstack/react-form@1.0.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)':
+  '@tanstack/react-form@1.1.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)':
     dependencies:
       '@remix-run/node': 2.16.0(typescript@5.7.3)
-      '@tanstack/form-core': 1.0.5
+      '@tanstack/form-core': 1.1.0
       '@tanstack/react-store': 0.7.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       decode-formdata: 0.8.0
       react: 19.0.0
@@ -6863,7 +6863,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.7)(eslint@9.22.0(jiti@2.4.2)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.7(eslint-plugin-import@2.31.0)(eslint@9.22.0(jiti@2.4.2)))(eslint@9.22.0(jiti@2.4.2)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -6885,7 +6885,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.22.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.7)(eslint@9.22.0(jiti@2.4.2))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.7(eslint-plugin-import@2.31.0)(eslint@9.22.0(jiti@2.4.2)))(eslint@9.22.0(jiti@2.4.2))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3

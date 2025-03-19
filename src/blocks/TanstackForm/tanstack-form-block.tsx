@@ -3,75 +3,25 @@
 import { useAppForm } from './hooks/form'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import type { FormBlock } from '@/payload-types'
-import { useState } from 'react'
-import { getClientSideURL } from '@/utilities/getURL'
-import { useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import RichText from '@/components/RichText'
-import { getFormOpts } from './form-options'
+import { useFormOpts } from './form-options'
 import { useStore } from '@tanstack/react-form'
 import { RenderFields } from './render-fields'
 
-export const TanstackFormBlock = ({
-  form: formFromProps,
-  enableIntro,
-  introContent,
-}: FormBlock) => {
-  const {
-    confirmationMessage,
-    confirmationType,
-    fields,
-    title,
-    redirect,
-    submitButtonLabel,
-  } = typeof formFromProps !== 'string' ? formFromProps : {}
+export const TanstackFormBlock = ({ form: payloadForm, enableIntro, introContent }: FormBlock) => {
+  const { confirmationMessage, confirmationType, fields, submitButtonLabel } =
+    typeof payloadForm !== 'string' ? payloadForm : {}
   const [postError, setPostError] = useState<{ message: string; status?: string } | undefined>()
-  const router = useRouter()
-  const {defaultValues} = getFormOpts(fields)
-
-  const form = useAppForm({
-    ...getFormOpts(fields),
-    onSubmit: async ({ value: data }) => {
-      setPostError(undefined)
-
-      try {
-        const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
-          body: JSON.stringify({
-            form: title,
-            submissionData: data,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-        })
-
-        const res = await req.json()
-
-        if (req.status >= 400) {
-          setPostError({
-            message: res.errors?.[0]?.message || 'Internal Server Error',
-            status: res.status,
-          })
-
-          return
-        }
-
-        if (confirmationType === 'redirect' && redirect) {
-          const { url } = redirect
-          const redirectUrl = url
-
-          if (redirectUrl) router.push(redirectUrl)
-        }
-
-        form.reset()
-      } catch (err) {
-        console.warn(err)
-        setPostError({
-          message: 'Something went wrong.',
-        })
-      }
-    },
+  const { defaultValues, onSubmit } = useFormOpts({
+    payloadForm,
+    setPostError,
   })
+  const form = useAppForm({
+    defaultValues,
+    onSubmit,
+  })
+
   const [isSubmitSuccessful] = useStore(form.store, (state) => [state.isSubmitSuccessful])
 
   return (
@@ -94,7 +44,12 @@ export const TanstackFormBlock = ({
             <Card className="@container">
               <CardContent className="grid grid-cols-1 gap-4 @lg:grid-cols-2 p-6 auto-cols-fr">
                 {fields?.map((field) => (
-                  <RenderFields key={field.id} field={field} defaultValues={defaultValues} form={form} />
+                  <RenderFields
+                    key={field.id}
+                    field={field}
+                    defaultValues={defaultValues}
+                    form={form}
+                  />
                 ))}
               </CardContent>
               <CardFooter>
