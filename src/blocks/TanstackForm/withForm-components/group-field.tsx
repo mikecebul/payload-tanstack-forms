@@ -1,11 +1,13 @@
 'use client'
 
+import type { AnyFormApi } from '@tanstack/react-form'
 import { withForm } from '../hooks/form'
-import type { Form, GroupFormField } from '@/payload-types'
-import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Card } from '@/components/ui/card'
-import { DefaultValues, getFormOpts } from '../form-options'
+import { DefaultValues } from '../form-options'
 import { RenderFields } from '../render-fields'
+
+import type { GroupFormField } from '@/payload-types'
+
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 
 export const GroupFieldComponent = ({
   defaultValues,
@@ -14,7 +16,7 @@ export const GroupFieldComponent = ({
 }: {
   defaultValues: DefaultValues
   field: GroupFormField
-  form: any
+  form: AnyFormApi | any
 }) => {
   const FieldComponent = withForm({
     defaultValues,

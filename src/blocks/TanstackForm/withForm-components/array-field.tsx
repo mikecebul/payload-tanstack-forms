@@ -1,12 +1,14 @@
 'use client'
 
+import type { AnyFormApi } from '@tanstack/react-form'
 import { withForm } from '../hooks/form'
-import type { ArrayFormField } from '@/payload-types'
-import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { DefaultValues } from '../form-options'
 import { RenderFields } from '../render-fields'
+
+import type { ArrayFormField } from '@/payload-types'
+
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 
 export const ArrayFieldComponent = ({
@@ -16,9 +18,8 @@ export const ArrayFieldComponent = ({
 }: {
   defaultValues: DefaultValues
   field: ArrayFormField
-  form: any
+  form: AnyFormApi | any
 }) => {
-
   const FieldComponent = withForm({
     defaultValues,
     props: {
