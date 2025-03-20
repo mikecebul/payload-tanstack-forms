@@ -54,7 +54,7 @@ export const ArrayFieldComponent = ({
                       <Card
                         key={i}
                         className={cn('', {
-                          'p-0 pb-2shadow-none border-none': arrayFields.length < 2,
+                          'p-0 shadow-none border-none': arrayFields.length < 2,
                         })}
                       >
                         {arrayFields.length > 1 && (
@@ -97,7 +97,7 @@ export const ArrayFieldComponent = ({
                     }
                     type="button"
                   >
-                    Add person
+                    Add {label}
                   </Button>
                 </div>
               )}

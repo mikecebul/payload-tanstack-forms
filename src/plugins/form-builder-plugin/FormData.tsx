@@ -2,7 +2,6 @@ import { UIFieldServerComponent } from 'payload'
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { DefaultValues } from '@/blocks/TanstackForm/form-options'
-import { convertLexicalNodesToJSX } from '@payloadcms/richtext-lexical/react'
 
 const FormData: UIFieldServerComponent = async ({ data }) => {
   const formData = data?.submissionData as DefaultValues

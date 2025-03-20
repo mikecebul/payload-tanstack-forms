@@ -7,7 +7,10 @@ import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 
 export type FormField = NonNullable<Form['fields']>[number]
-export type DefaultValues = Record<string, string | number | boolean | any[] | undefined>
+export type DefaultValues = Record<
+  string,
+  string | number | boolean | any[] | Record<string, any> | undefined
+>
 
 export const useFormOpts = ({
   payloadForm,
@@ -75,13 +78,14 @@ export const useFormOpts = ({
   })
 }
 
-const getDefaultValues = (fields: Form['fields']) => {
+const getDefaultValues = (fields: Form['fields'], parentKey = '') => {
   const defaultValues: DefaultValues = {}
 
   if (fields) {
     fields.forEach((field) => {
       if ('name' in field && field.name) {
-        let defaultValue: string | number | boolean | any[] | undefined
+        let defaultValue: string | number | boolean | any[] | Record<string, any> | undefined
+        const fieldName = parentKey ? `${parentKey}.${field.name}` : field.name
 
         switch (field.blockType) {
           case 'number':
@@ -91,15 +95,17 @@ const getDefaultValues = (fields: Form['fields']) => {
             defaultValue = !!field.defaultValue ? Boolean(field.defaultValue) : false
             break
           case 'array':
-            const { defaultValues: arrayDefaults } = getDefaultValues(field.fields)
+            const arrayDefaults = getDefaultValues(field.fields)
             defaultValue = field.fields ? [arrayDefaults] : []
             break
           case 'group':
-            getDefaultValues(field.fields)
+            Object.assign(defaultValues, getDefaultValues(field.fields, fieldName))
+            return
           default:
             defaultValue = 'defaultValue' in field && !!field.defaultValue ? field.defaultValue : ''
+            break
         }
-        defaultValues[field.name] = defaultValue
+        defaultValues[fieldName] = defaultValue
       }
     })
   }

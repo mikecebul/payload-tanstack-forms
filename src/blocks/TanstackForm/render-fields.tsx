@@ -1,5 +1,4 @@
-import { Form } from '@/payload-types'
-import { DefaultValues, FormField, getFormOpts } from './form-options'
+import { DefaultValues, FormField } from './form-options'
 import { withForm } from './hooks/form'
 import { z } from 'zod'
 import { ArrayFieldComponent } from './withForm-components/array-field'
@@ -147,9 +146,23 @@ export const RenderFields = ({
             </form.AppField>
           )
         case 'array':
-          return <ArrayFieldComponent key={field.id} form={form} field={field} defaultValues={defaultValues} />
+          return (
+            <ArrayFieldComponent
+              key={field.id}
+              form={form}
+              field={field}
+              defaultValues={defaultValues}
+            />
+          )
         case 'group':
-          return <GroupFieldComponent key={field.id} form={form} field={field} defaultValues={defaultValues} />
+          return (
+            <GroupFieldComponent
+              key={field.id}
+              form={form}
+              field={field}
+              defaultValues={defaultValues}
+            />
+          )
         default:
           return <></>
       }

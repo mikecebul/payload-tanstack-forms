@@ -18,6 +18,7 @@ export const GroupFieldComponent = ({
   field: GroupFormField
   form: AnyFormApi | any
 }) => {
+  console.log('Default Values:', defaultValues)
   const FieldComponent = withForm({
     defaultValues,
     props: {
