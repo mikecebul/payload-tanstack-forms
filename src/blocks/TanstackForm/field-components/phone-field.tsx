@@ -9,7 +9,7 @@ import type { PhoneFormField } from '@/payload-types'
 
 export default function PhoneField({ label, name, width }: PhoneFormField) {
   const field = useFieldContext<string>()
-  const errors = useStore(field.store, (state) => state.meta.errorMap['onChange'])
+  const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
     <div className={cn('col-span-2', { '@md:col-span-1': width === 50 })}>
@@ -24,7 +24,7 @@ export default function PhoneField({ label, name, width }: PhoneFormField) {
         />
       </div>
       <div>
-        {errors && <em className="text-destructive first:mt-1 text-sm">{errors[0].message}</em>}
+        {errors && <em className="text-destructive first:mt-1 text-sm">{errors[0]?.message}</em>}
       </div>
     </div>
   )

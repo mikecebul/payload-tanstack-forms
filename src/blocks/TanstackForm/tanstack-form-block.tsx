@@ -1,28 +1,22 @@
 'use client'
 
-import { useAppForm } from './hooks/form'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import type { FormBlock } from '@/payload-types'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import RichText from '@/components/RichText'
-import { useFormOpts } from './form-options'
 import { useStore } from '@tanstack/react-form'
-import { RenderFields } from './render-fields'
+import { RenderFields } from './renders/render-fields'
+import { useDynamicForm } from './hooks/use-dynamic-form'
 
 export const TanstackFormBlock = ({ form: payloadForm, enableIntro, introContent }: FormBlock) => {
   const { confirmationMessage, confirmationType, fields, submitButtonLabel } =
     typeof payloadForm !== 'string' ? payloadForm : {}
   const [postError, setPostError] = useState<{ message: string; status?: string } | undefined>()
-  const { defaultValues, onSubmit } = useFormOpts({
-    payloadForm,
-    setPostError,
-  })
-  const form = useAppForm({
-    defaultValues,
-    onSubmit,
-  })
 
+  const { form, defaultValues } = useDynamicForm({ payloadForm, setPostError })
   const [isSubmitSuccessful] = useStore(form.store, (state) => [state.isSubmitSuccessful])
+
+  console.log('Default vaules:', defaultValues)
 
   return (
     <div className="max-w-2xl mx-auto">

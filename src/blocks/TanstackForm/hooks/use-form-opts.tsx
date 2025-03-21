@@ -78,14 +78,13 @@ export const useFormOpts = ({
   })
 }
 
-const getDefaultValues = (fields: Form['fields'], parentKey = '') => {
+const getDefaultValues = (fields: Form['fields']) => {
   const defaultValues: DefaultValues = {}
 
   if (fields) {
     fields.forEach((field) => {
       if ('name' in field && field.name) {
         let defaultValue: string | number | boolean | any[] | Record<string, any> | undefined
-        const fieldName = parentKey ? `${parentKey}.${field.name}` : field.name
 
         switch (field.blockType) {
           case 'number':
@@ -99,13 +98,13 @@ const getDefaultValues = (fields: Form['fields'], parentKey = '') => {
             defaultValue = field.fields ? [arrayDefaults] : []
             break
           case 'group':
-            Object.assign(defaultValues, getDefaultValues(field.fields, fieldName))
-            return
+            defaultValue = getDefaultValues(field.fields)
+            break
           default:
             defaultValue = 'defaultValue' in field && !!field.defaultValue ? field.defaultValue : ''
             break
         }
-        defaultValues[fieldName] = defaultValue
+        defaultValues[field.name] = defaultValue
       }
     })
   }

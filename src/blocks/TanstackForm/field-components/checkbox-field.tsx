@@ -16,7 +16,7 @@ export default function CheckboxField({
   width: number
 }) {
   const field = useFieldContext<boolean>()
-  const error = useStore(field.store, (state) => state.meta.errorMap['onChange'])
+  const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
     <div
@@ -31,7 +31,7 @@ export default function CheckboxField({
         />
         <Label htmlFor={id}>{label}</Label>
       </div>
-      <div>{error && <em className="text-destructive first:mt-1 text-sm">{error}</em>}</div>
+      <div>{errors && <em className="text-destructive first:mt-1 text-sm">{errors[0]}</em>}</div>
     </div>
   )
 }
