@@ -1,7 +1,5 @@
-'use client'
-
 import { DefaultValues } from '../hooks/use-form-opts'
-import { RenderFields } from './render-fields'
+import { RenderFields } from './render-fields-with-validation'
 
 import type { GroupFormField } from '@/payload-types'
 
@@ -10,7 +8,6 @@ import { DynamicFormType } from '../hooks/use-dynamic-form'
 
 export const GroupFieldComponent = ({
   defaultValues,
-  field,
   field: { fields: groupFields, description, name, title },
   form,
 }: {
@@ -18,7 +15,6 @@ export const GroupFieldComponent = ({
   field: GroupFormField
   form: DynamicFormType
 }) => {
-  console.log('Group Field:', field)
   return (
     <div className="@container col-span-2">
       <Card className="border-none shadow-none">

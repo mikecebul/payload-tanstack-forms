@@ -4,18 +4,11 @@ import { Form } from '@/payload-types'
 import { useFormOpts } from './use-form-opts'
 import { useAppForm } from './form'
 import { Dispatch, SetStateAction } from 'react'
+import { PostError } from '../tanstack-form-block'
 
 type Props = {
   payloadForm: Form | string
-  setPostError: Dispatch<
-    SetStateAction<
-      | {
-          message: string
-          status?: string
-        }
-      | undefined
-    >
-  >
+  setPostError: Dispatch<SetStateAction<PostError | undefined>>
 }
 
 export const useDynamicForm = ({ payloadForm, setPostError }: Props) => {

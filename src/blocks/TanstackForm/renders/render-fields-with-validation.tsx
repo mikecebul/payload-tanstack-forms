@@ -1,8 +1,8 @@
-import { DefaultValues, FormField } from '../hooks/use-form-opts'
+import type { DefaultValues, FormField } from '../hooks/use-form-opts'
+import type { DynamicFormType } from '../hooks/use-dynamic-form'
 import { z } from 'zod'
 import { ArrayFieldComponent } from './render-array-field'
 import { GroupFieldComponent } from './render-group-field'
-import type { DynamicFormType } from '../hooks/use-dynamic-form'
 
 export const RenderFields = ({
   field: oldField,

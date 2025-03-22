@@ -5,18 +5,22 @@ import type { FormBlock } from '@/payload-types'
 import { useState } from 'react'
 import RichText from '@/components/RichText'
 import { useStore } from '@tanstack/react-form'
-import { RenderFields } from './renders/render-fields'
+import { RenderFields } from './renders/render-fields-with-validation'
 import { useDynamicForm } from './hooks/use-dynamic-form'
+
+export type PostError = {
+  message: string
+  status?: string
+}
 
 export const TanstackFormBlock = ({ form: payloadForm, enableIntro, introContent }: FormBlock) => {
   const { confirmationMessage, confirmationType, fields, submitButtonLabel } =
     typeof payloadForm !== 'string' ? payloadForm : {}
-  const [postError, setPostError] = useState<{ message: string; status?: string } | undefined>()
+
+  const [postError, setPostError] = useState<PostError | undefined>()
 
   const { form, defaultValues } = useDynamicForm({ payloadForm, setPostError })
   const [isSubmitSuccessful] = useStore(form.store, (state) => [state.isSubmitSuccessful])
-
-  console.log('Default vaules:', defaultValues)
 
   return (
     <div className="max-w-2xl mx-auto">

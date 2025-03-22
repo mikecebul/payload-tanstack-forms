@@ -5,27 +5,18 @@ import type { Form } from '@/payload-types'
 import type { Dispatch, SetStateAction } from 'react'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
+import { PostError } from '../tanstack-form-block'
 
 export type FormField = NonNullable<Form['fields']>[number]
-export type DefaultValues = Record<
-  string,
-  string | number | boolean | any[] | Record<string, any> | undefined
->
+export type Value = string | number | boolean | any[] | Record<string, any> | undefined
+export type DefaultValues = Record<string, Value>
 
 export const useFormOpts = ({
   payloadForm,
   setPostError,
 }: {
   payloadForm: Form | string
-  setPostError: Dispatch<
-    SetStateAction<
-      | {
-          message: string
-          status?: string
-        }
-      | undefined
-    >
-  >
+  setPostError: Dispatch<SetStateAction<PostError | undefined>>
 }) => {
   const { confirmationType, fields, title, redirect } =
     typeof payloadForm !== 'string' ? payloadForm : {}
@@ -84,7 +75,7 @@ const getDefaultValues = (fields: Form['fields']) => {
   if (fields) {
     fields.forEach((field) => {
       if ('name' in field && field.name) {
-        let defaultValue: string | number | boolean | any[] | Record<string, any> | undefined
+        let defaultValue: Value
 
         switch (field.blockType) {
           case 'number':

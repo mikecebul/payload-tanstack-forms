@@ -1,14 +1,12 @@
-'use client'
-
-import { DefaultValues } from '../hooks/use-form-opts'
-import { RenderFields } from './render-fields'
+import type { DefaultValues } from '../hooks/use-form-opts'
+import type { DynamicFormType } from '../hooks/use-dynamic-form'
+import { RenderFields } from './render-fields-with-validation'
 
 import type { ArrayFormField } from '@/payload-types'
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
-import { DynamicFormType } from '../hooks/use-dynamic-form'
 
 export const ArrayFieldComponent = ({
   defaultValues,
