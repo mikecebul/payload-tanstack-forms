@@ -4,13 +4,24 @@ import { RenderFields } from './render-fields-with-validation'
 
 import type { ArrayFormField } from '@/payload-types'
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardDescriptionDiv,
+} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 
+import { motion, AnimatePresence } from 'motion/react'
+import { Plus, Trash2 } from 'lucide-react'
+import { ReactNode } from 'react'
+
 export const ArrayFieldComponent = ({
   defaultValues,
-  field: { fields: arrayFields, description, name: arrayFieldName, label, title },
+  field: { fields: arrayFields, description, name: arrayFieldName, label, title, maxRows, minRows },
   form,
 }: {
   defaultValues: DefaultValues
@@ -28,62 +39,122 @@ export const ArrayFieldComponent = ({
       <CardContent className="grid grid-cols-1 gap-4 @md:grid-cols-2 auto-cols-fr px-0">
         {/* Array Field Context */}
         <form.AppField name={arrayFieldName} mode="array">
-          {(field) => (
-            <div className="space-y-3 col-span-2">
-              {Array.isArray(field.state.value) &&
-                field.state.value.map((_, i) => (
-                  // Map through each array item
-                  <Card
-                    key={i}
-                    className={cn('', {
-                      'p-0 shadow-none border-none': arrayFields.length < 2,
-                    })}
-                  >
-                    {arrayFields.length > 1 && (
-                      <CardHeader className="">
-                        <CardDescription>{`${label} ${i + 1}`}</CardDescription>
-                      </CardHeader>
-                    )}
-                    <CardContent
-                      className={cn('space-y-3', {
-                        'p-0 pb-2': arrayFields.length < 2,
-                      })}
-                    >
-                      {arrayFields?.map((field) => {
-                        const newField = {
-                          ...field,
-                          name: `${arrayFieldName}[${i}].${field.name}`,
-                          label: arrayFields.length < 2 ? `${field.label} ${i + 1}` : field.label,
-                        }
-                        return (
-                          <RenderFields
-                            key={field.id}
-                            field={newField}
-                            defaultValues={defaultValues}
-                            form={form}
-                          />
-                        )
-                      })}
-                    </CardContent>
-                  </Card>
-                ))}
+          {(field) => {
+            const arrayFieldValue = Array.isArray(field.state.value) ? field.state.value : []
+            return (
+              <div className="col-span-2">
+                <AnimatePresence initial={false} mode="sync">
+                  {arrayFieldValue?.map((_, i) => (
+                    // Map through each array item
+                    <MotionWrapper key={i}>
+                      <Card
+                        key={i}
+                        className={cn('col-span-2', {
+                          'p-0 shadow-none border-none': arrayFields.length < 2,
+                        })}
+                      >
+                        {arrayFields.length > 1 && (
+                          <CardHeader>
+                            <CardDescriptionDiv className="flex items-center justify-between">
+                              {label} {i + 1}
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className={cn(
+                                  'size-7 rounded-full transition-opacity hover:bg-red-100',
+                                  {
+                                    'pointer-events-none opacity-0':
+                                      arrayFieldValue.length <= minRows,
+                                    'opacity-100': arrayFieldValue.length > minRows,
+                                  },
+                                )}
+                                onClick={() => field.removeValue(i)}
+                              >
+                                <Trash2 className="size-4 text-red-700 hover:text-red-900" />
+                              </Button>
+                            </CardDescriptionDiv>
+                          </CardHeader>
+                        )}
+                        <CardContent
+                          className={cn('space-y-3', {
+                            'p-0 pb-2': arrayFields.length < 2,
+                          })}
+                        >
+                          {arrayFields?.map((field) => {
+                            const newField = {
+                              ...field,
+                              name: `${arrayFieldName}[${i}].${field.name}`,
+                              label:
+                                arrayFields.length < 2 ? `${field.label} ${i + 1}` : field.label,
+                            }
+                            return (
+                              <RenderFields
+                                key={field.id}
+                                field={newField}
+                                defaultValues={defaultValues}
+                                form={form}
+                              />
+                            )
+                          })}
+                        </CardContent>
+                      </Card>
+                    </MotionWrapper>
+                  ))}
+                </AnimatePresence>
 
-              <Button
-                onClick={() =>
-                  field.pushValue(
-                    Array.isArray(defaultValues[arrayFieldName])
-                      ? defaultValues[arrayFieldName][0]
-                      : {},
-                  )
-                }
-                type="button"
-              >
-                Add {label}
-              </Button>
-            </div>
-          )}
+                <Button
+                  onClick={() =>
+                    field.pushValue(
+                      Array.isArray(defaultValues[arrayFieldName])
+                        ? defaultValues[arrayFieldName][0]
+                        : {},
+                    )
+                  }
+                  type="button"
+                  size="icon"
+                  className={cn('size-7 rounded-full transition-opacity duration-300', {
+                    'pointer-events-none opacity-0 h-0': arrayFieldValue.length >= maxRows,
+                    'opacity-100': arrayFieldValue.length < maxRows,
+                  })}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+            )
+          }}
         </form.AppField>
       </CardContent>
     </div>
+  )
+}
+
+const MotionWrapper = ({ children }: { children: ReactNode }) => {
+  return (
+    <motion.div
+      initial={{ marginBottom: 0 }}
+      animate={{ marginBottom: 16 }}
+      exit={{ marginBottom: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, height: 0, padding: 0 }}
+        animate={{
+          opacity: 1,
+          height: 'auto',
+        }}
+        exit={{
+          opacity: 0,
+          height: 0,
+          transition: { duration: 0.2 },
+        }}
+        transition={{
+          opacity: { duration: 0.05, delay: 0.15 },
+          height: { duration: 0.2 },
+        }}
+      >
+        {children}
+      </motion.div>
+    </motion.div>
   )
 }

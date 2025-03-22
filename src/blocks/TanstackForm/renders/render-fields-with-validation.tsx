@@ -3,6 +3,7 @@ import type { DynamicFormType } from '../hooks/use-dynamic-form'
 import { z } from 'zod'
 import { ArrayFieldComponent } from './render-array-field'
 import { GroupFieldComponent } from './render-group-field'
+import RichText from '@/components/RichText'
 
 export const RenderFields = ({
   field: oldField,
@@ -22,7 +23,8 @@ export const RenderFields = ({
 
   switch (field.blockType) {
     case 'message':
-      return <></>
+      if (!field.message) return <></>
+      return <RichText data={field.message} enableGutter={false} className="text-sm col-span-2" />
     case 'text':
       return (
         <form.AppField
