@@ -9,6 +9,9 @@ import NumberField from '../field-components/number-field'
 import EmailField from '../field-components/email-field'
 import PhoneField from '../field-components/phone-field'
 import SubscribeButton from '../form-components/subscribe-button'
+import StateField from '../field-components/state-field'
+import CountryField from '../field-components/country-field'
+import SelectField from '../field-components/select-field'
 
 export const { useAppForm, withForm } = createFormHook({
   fieldComponents: {
@@ -18,6 +21,9 @@ export const { useAppForm, withForm } = createFormHook({
     NumberField,
     EmailField,
     PhoneField,
+    StateField,
+    CountryField,
+    SelectField,
   },
   formComponents: {
     SubscribeButton,

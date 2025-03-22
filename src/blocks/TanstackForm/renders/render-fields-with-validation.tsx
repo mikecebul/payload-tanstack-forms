@@ -146,6 +146,48 @@ export const RenderFields = ({
           )}
         </form.AppField>
       )
+    case 'country':
+      return (
+        <form.AppField
+          key={field.id}
+          name={field.name}
+          validators={{
+            onChange: field.required
+              ? z.string().min(1, `${field.label || field.name} is required`)
+              : z.string().optional(),
+          }}
+        >
+          {(formField) => <formField.CountryField {...field} />}
+        </form.AppField>
+      )
+    case 'state':
+      return (
+        <form.AppField
+          key={field.id}
+          name={field.name}
+          validators={{
+            onChange: field.required
+              ? z.string().min(1, `${field.label || field.name} is required`)
+              : z.string().optional(),
+          }}
+        >
+          {(formField) => <formField.StateField {...field} />}
+        </form.AppField>
+      )
+    case 'select':
+      return (
+        <form.AppField
+          key={field.id}
+          name={field.name}
+          validators={{
+            onChange: field.required
+              ? z.string().min(1, `${field.label || field.name} is required`)
+              : z.string().optional(),
+          }}
+        >
+          {(formField) => <formField.SelectField {...field} />}
+        </form.AppField>
+      )
     case 'array':
       return (
         <ArrayFieldComponent

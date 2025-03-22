@@ -573,15 +573,7 @@ export interface Form {
             blockName?: string | null;
             blockType: 'checkbox';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'country';
-          }
+        | CountryFormField
         | EmailFormField
         | {
             message?: {
@@ -613,33 +605,8 @@ export interface Form {
             blockName?: string | null;
             blockType: 'number';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            placeholder?: string | null;
-            options?:
-              | {
-                  label: string;
-                  value: string;
-                  id?: string | null;
-                }[]
-              | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'select';
-          }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'state';
-          }
+        | SelectFormField
+        | StateFormField
         | TextFormField
         | {
             name: string;
@@ -651,9 +618,9 @@ export interface Form {
             blockName?: string | null;
             blockType: 'textarea';
           }
-        | PhoneFormField
         | ArrayFormField
         | GroupFormField
+        | PhoneFormField
       )[]
     | null;
   submitButtonLabel?: string | null;
@@ -716,6 +683,19 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CountryFormField".
+ */
+export interface CountryFormField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'country';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "EmailFormField".
  */
 export interface EmailFormField {
@@ -726,6 +706,40 @@ export interface EmailFormField {
   id?: string | null;
   blockName?: string | null;
   blockType: 'email';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SelectFormField".
+ */
+export interface SelectFormField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  defaultValue?: string | null;
+  options?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'select';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StateFormField".
+ */
+export interface StateFormField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'state';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -740,19 +754,6 @@ export interface TextFormField {
   id?: string | null;
   blockName?: string | null;
   blockType: 'text';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PhoneFormField".
- */
-export interface PhoneFormField {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'phone';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -805,6 +806,19 @@ export interface ArrayFormField {
   id?: string | null;
   blockName?: string | null;
   blockType: 'array';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhoneFormField".
+ */
+export interface PhoneFormField {
+  name: string;
+  label?: string | null;
+  width?: number | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'phone';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1443,16 +1457,7 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        country?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        country?: T | CountryFormFieldSelect<T>;
         email?: T | EmailFormFieldSelect<T>;
         message?:
           | T
@@ -1472,35 +1477,8 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        select?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              placeholder?: T;
-              options?:
-                | T
-                | {
-                    label?: T;
-                    value?: T;
-                    id?: T;
-                  };
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        state?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        select?: T | SelectFormFieldSelect<T>;
+        state?: T | StateFormFieldSelect<T>;
         text?: T | TextFormFieldSelect<T>;
         textarea?:
           | T
@@ -1513,9 +1491,9 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        phone?: T | PhoneFormFieldSelect<T>;
         array?: T | ArrayFormFieldSelect<T>;
         group?: T | GroupFormFieldSelect<T>;
+        phone?: T | PhoneFormFieldSelect<T>;
       };
   submitButtonLabel?: T;
   confirmationType?: T;
@@ -1542,9 +1520,53 @@ export interface FormsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CountryFormField_select".
+ */
+export interface CountryFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "EmailFormField_select".
  */
 export interface EmailFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SelectFormField_select".
+ */
+export interface SelectFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  defaultValue?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StateFormField_select".
+ */
+export interface StateFormFieldSelect<T extends boolean = true> {
   name?: T;
   label?: T;
   width?: T;
@@ -1561,18 +1583,6 @@ export interface TextFormFieldSelect<T extends boolean = true> {
   label?: T;
   width?: T;
   defaultValue?: T;
-  required?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PhoneFormField_select".
- */
-export interface PhoneFormFieldSelect<T extends boolean = true> {
-  name?: T;
-  label?: T;
-  width?: T;
   required?: T;
   id?: T;
   blockName?: T;
@@ -1630,6 +1640,18 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
             };
         phone?: T | PhoneFormFieldSelect<T>;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhoneFormField_select".
+ */
+export interface PhoneFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  width?: T;
+  required?: T;
   id?: T;
   blockName?: T;
 }

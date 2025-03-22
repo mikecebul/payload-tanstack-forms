@@ -29,6 +29,7 @@ const width: Field = {
 
 const Select: Block = {
   slug: 'select',
+  interfaceName: "SelectFormField",
   fields: [
     {
       type: 'row',
@@ -286,6 +287,7 @@ const Email: Block = {
 
 const State: Block = {
   slug: 'state',
+  interfaceName: 'StateFormField',
   fields: [
     {
       type: 'row',
@@ -315,6 +317,7 @@ const State: Block = {
 
 const Country: Block = {
   slug: 'country',
+  interfaceName: 'CountryFormField',
   fields: [
     {
       type: 'row',
