@@ -36,12 +36,14 @@ const FormData: UIFieldServerComponent = async ({ data }) => {
             <div className="grid gap-4 md:grid-cols-2">
               <Card>
                 <CardContent className="space-y-1 p-6">
-                  {Object.entries(groupValue as Record<string, any>).map(([key, value]) => (
-                    <p key={key} className="">
-                      <span className="font-bold capitalize">{key}</span>:{' '}
-                      <span>{String(value)}</span>
-                    </p>
-                  ))}
+                  {Object.entries(groupValue as Record<string, DefaultValues>).map(
+                    ([key, value]) => (
+                      <p key={key} className="">
+                        <span className="font-bold capitalize">{key}</span>:{' '}
+                        <span>{String(value)}</span>
+                      </p>
+                    ),
+                  )}
                 </CardContent>
               </Card>
             </div>
