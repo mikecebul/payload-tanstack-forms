@@ -784,7 +784,7 @@ export const Group: Block = {
       name: 'fields',
       label: 'Fields',
       required: true,
-      blocks: [Text, Textarea, Email, Number, Checkbox, Phone, ArrayBlock],
+      blocks: [Text, Textarea, Email, Number, Checkbox, Phone, ArrayBlock, Select, State, Country],
     },
   ],
 }

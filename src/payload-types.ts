@@ -832,6 +832,9 @@ export interface GroupFormField {
     | CheckboxFormField
     | PhoneFormField
     | ArrayFormField
+    | SelectFormField
+    | StateFormField
+    | CountryFormField
   )[];
   id?: string | null;
   blockName?: string | null;
@@ -1631,6 +1634,9 @@ export interface GroupFormFieldSelect<T extends boolean = true> {
         checkbox?: T | CheckboxFormFieldSelect<T>;
         phone?: T | PhoneFormFieldSelect<T>;
         array?: T | ArrayFormFieldSelect<T>;
+        select?: T | SelectFormFieldSelect<T>;
+        state?: T | StateFormFieldSelect<T>;
+        country?: T | CountryFormFieldSelect<T>;
       };
   id?: T;
   blockName?: T;

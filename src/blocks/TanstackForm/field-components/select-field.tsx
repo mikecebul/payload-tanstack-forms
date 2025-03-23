@@ -23,7 +23,7 @@ export default function SelectField({ id, label, name, colSpan = '2', options }:
         <Label htmlFor={id ?? name}>{label}</Label>
         <Select onValueChange={(e) => field.handleChange(e)}>
           <SelectTrigger id={id ?? name}>
-            <SelectValue placeholder="Pick a state" />
+            <SelectValue placeholder={`Select a ${name}`} className="bg-red-300" />
           </SelectTrigger>
           <SelectContent>
             {options?.map(({ label, value }) => {
