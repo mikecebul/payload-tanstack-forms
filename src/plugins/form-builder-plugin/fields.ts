@@ -29,7 +29,7 @@ const width: Field = {
 
 const Select: Block = {
   slug: 'select',
-  interfaceName: "SelectFormField",
+  interfaceName: 'SelectFormField',
   fields: [
     {
       type: 'row',
@@ -644,25 +644,17 @@ export const ArrayBlock: Block = {
       ],
     },
     {
-      type: 'row',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: 'Array Title',
-          admin: {
-            width: '50%',
-          },
-        },
-        {
-          name: 'description',
-          type: 'text',
-          label: 'Array Description',
-          admin: {
-            width: '50%',
-          },
-        },
-      ],
+      name: 'title',
+      type: 'text',
+      label: 'Array Title',
+      admin: {
+        width: '50%',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Array Description',
     },
     {
       type: 'row',

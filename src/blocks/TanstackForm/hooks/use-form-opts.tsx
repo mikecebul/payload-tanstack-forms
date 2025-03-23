@@ -6,7 +6,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 import { PostError } from '../tanstack-form-block'
-import { flatten } from '@/plugins/form-builder-plugin/utils/flatten'
+import { prepareSubmissionData } from '@/plugins/form-builder-plugin/utils/prepareSubmissionData'
 
 export type FormField = NonNullable<Form['fields']>[number]
 export type Value = string | number | boolean | any[] | Record<string, any> | undefined
@@ -33,11 +33,8 @@ export const useFormOpts = ({
     defaultValues,
     onSubmit: async ({ value: data, formApi }) => {
       setPostError(undefined)
-      const flattenData = flatten(data)
-      const dataToSend = Object.entries(flattenData).map(([name, value]) => ({
-        field: name,
-        value,
-      }))
+      const dataToSend = prepareSubmissionData(data)
+      console.log('Data', dataToSend)
 
       try {
         const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
