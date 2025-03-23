@@ -5,25 +5,18 @@ import { useFieldContext } from '../hooks/form-context'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
+import { NumberFormField } from '@/payload-types'
 
-export default function NumberField({
-  id,
-  label,
-  width = 100,
-}: {
-  id: string
-  label: string
-  width: number
-}) {
+export default function NumberField({ id, label, name, colSpan = '2' }: NumberFormField) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@md:col-span-1': width === 50 })}>
+    <div className={cn('col-span-2', { '@md:col-span-1': colSpan === '1' })}>
       <div className={cn('grid gap-2 w-full')}>
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id ?? name}>{label}</Label>
         <Input
-          id={id}
+          id={id ?? name}
           type="number"
           value={field.state.value}
           onBlur={() => field.handleBlur()}

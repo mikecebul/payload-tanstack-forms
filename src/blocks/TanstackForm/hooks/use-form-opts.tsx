@@ -31,7 +31,7 @@ export const useFormOpts = ({
 
   return formOptions({
     defaultValues,
-    onSubmit: async ({ value: data, formApi }) => {
+    onSubmit: async ({ value: data, formApi: form }) => {
       setPostError(undefined)
       const dataToSend = prepareSubmissionData(data)
       console.log('Data', dataToSend)
@@ -62,13 +62,10 @@ export const useFormOpts = ({
         }
 
         if (confirmationType === 'redirect' && redirect) {
-          const { url } = redirect
-          const redirectUrl = url
-
-          if (redirectUrl) router.push(redirectUrl)
+          if (redirect.url) router.push(redirect.url)
         }
 
-        formApi.reset()
+        form.reset()
       } catch (err) {
         console.warn(err)
         setPostError({
@@ -89,7 +86,7 @@ const getDefaultValues = (fields: Form['fields']) => {
 
         switch (field.blockType) {
           case 'number':
-            defaultValue = !!field.defaultValue ? Number(field.defaultValue) : 0
+            defaultValue = !!field.defaultValue ? Number(field.defaultValue) : ''
             break
           case 'checkbox':
             defaultValue = !!field.defaultValue ? Boolean(field.defaultValue) : false

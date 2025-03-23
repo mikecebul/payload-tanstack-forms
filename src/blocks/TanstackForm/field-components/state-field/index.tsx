@@ -14,12 +14,12 @@ import {
 } from '@/components/ui/select'
 import { stateOptions } from './options'
 
-export default function StateField({ id, label, name, width }: StateFormField) {
+export default function StateField({ id, label, name, colSpan = '2' }: StateFormField) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@md:col-span-1': width === 50 })}>
+    <div className={cn('col-span-2', { '@md:col-span-1': colSpan === '1' })}>
       <div className={cn('grid gap-2 w-full')}>
         <Label htmlFor={id ?? name}>{label}</Label>
         <Select onValueChange={(e) => field.handleChange(e)}>

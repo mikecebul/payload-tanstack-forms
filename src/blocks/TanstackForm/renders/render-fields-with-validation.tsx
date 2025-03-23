@@ -90,13 +90,7 @@ export const RenderFields = ({
               : z.string().optional(),
           }}
         >
-          {(formField) => (
-            <formField.TextareaField
-              label={field.label ?? field.name}
-              width={field.width ?? 100}
-              id={field.id ?? field.name}
-            />
-          )}
+          {(formField) => <formField.TextareaField {...field} />}
         </form.AppField>
       )
     case 'checkbox':
@@ -113,13 +107,7 @@ export const RenderFields = ({
                 : undefined,
           }}
         >
-          {(formField) => (
-            <formField.CheckboxField
-              label={field.label ?? field.name}
-              width={field.width ?? 100}
-              id={field.id ?? field.name}
-            />
-          )}
+          {(formField) => <formField.CheckboxField {...field} />}
         </form.AppField>
       )
     case 'number':
@@ -128,22 +116,38 @@ export const RenderFields = ({
           key={field.id}
           name={field.name}
           validators={{
-            onChange: field.required
-              ? z.coerce.number().positive(`${field.label || field.name} must be a positive number`)
-              : z.coerce
-                  .number()
-                  .positive(`${field.label || field.name} must be a positive number`)
-                  .or(z.literal(undefined))
-                  .optional(),
+            onChange: (() => {
+              // Start with base schema for coercing to number
+              let schema = z.coerce.number()
+
+              // Add min validation if field.min is defined
+              if (field.min !== undefined && field.min !== null) {
+                schema = schema.min(
+                  field.min,
+                  field.minError || `${field.label || field.name} must be at least ${field.min}`,
+                )
+              }
+
+              // Add max validation if field.max is defined
+              if (field.max !== undefined && field.max !== null) {
+                schema = schema.max(
+                  field.max,
+                  field.maxError || `${field.label || field.name} must not exceed ${field.max}`,
+                )
+              }
+
+              // Handle required vs optional
+              if (field.required) {
+                return schema
+              } else {
+                // For optional fields, allow empty values
+                // This handles empty string ('') which coerces to 0
+                return z.union([schema, z.literal('').transform(() => undefined), z.undefined()])
+              }
+            })(),
           }}
         >
-          {(formField) => (
-            <formField.NumberField
-              label={field.label ?? field.name}
-              width={field.width ?? 100}
-              id={field.id ?? field.name}
-            />
-          )}
+          {(formField) => <formField.NumberField {...field} />}
         </form.AppField>
       )
     case 'country':
@@ -181,8 +185,20 @@ export const RenderFields = ({
           name={field.name}
           validators={{
             onChange: field.required
-              ? z.string().min(1, `${field.label || field.name} is required`)
-              : z.string().optional(),
+              ? z
+                  .string()
+                  .refine(
+                    (value) => field.options?.some((option) => option.value === value) ?? false,
+                    { message: `Please select a valid option for ${field.label || field.name}` },
+                  )
+              : z
+                  .string()
+                  .optional()
+                  .refine(
+                    (value) =>
+                      (!value || field.options?.some((option) => option.value === value)) ?? true,
+                    { message: `Please select a valid option for ${field.label || field.name}` },
+                  ),
           }}
         >
           {(formField) => <formField.SelectField {...field} />}

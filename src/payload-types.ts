@@ -562,17 +562,7 @@ export interface Form {
   title: string;
   fields?:
     | (
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            errorMsg?: string | null;
-            defaultValue?: boolean | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'checkbox';
-          }
+        | CheckboxFormField
         | CountryFormField
         | EmailFormField
         | {
@@ -595,29 +585,11 @@ export interface Form {
             blockName?: string | null;
             blockType: 'message';
           }
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: number | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'number';
-          }
+        | NumberFormField
         | SelectFormField
         | StateFormField
         | TextFormField
-        | {
-            name: string;
-            label?: string | null;
-            width?: number | null;
-            defaultValue?: string | null;
-            required?: boolean | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'textarea';
-          }
+        | TextareaFormField
         | ArrayFormField
         | GroupFormField
         | PhoneFormField
@@ -683,12 +655,30 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CheckboxFormField".
+ */
+export interface CheckboxFormField {
+  name: string;
+  label?: string | null;
+  colSpan?: ('1' | '2') | null;
+  errorMsg?: string | null;
+  defaultValue?: boolean | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'checkbox';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CountryFormField".
  */
 export interface CountryFormField {
   name: string;
   label?: string | null;
-  width?: number | null;
+  /**
+   * form defaults to spanning the full two columns
+   */
+  colSpan?: ('1' | '2') | null;
   required?: boolean | null;
   id?: string | null;
   blockName?: string | null;
@@ -701,11 +691,32 @@ export interface CountryFormField {
 export interface EmailFormField {
   name: string;
   label?: string | null;
-  width?: number | null;
+  /**
+   * form defaults to spanning the full two columns
+   */
+  colSpan?: ('1' | '2') | null;
   required?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'email';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumberFormField".
+ */
+export interface NumberFormField {
+  name: string;
+  label?: string | null;
+  colSpan?: ('1' | '2') | null;
+  defaultValue?: number | null;
+  min?: number | null;
+  minError?: string | null;
+  max?: number | null;
+  maxError?: string | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'number';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -714,7 +725,7 @@ export interface EmailFormField {
 export interface SelectFormField {
   name: string;
   label?: string | null;
-  width?: number | null;
+  colSpan?: ('1' | '2') | null;
   defaultValue?: string | null;
   options?:
     | {
@@ -735,7 +746,10 @@ export interface SelectFormField {
 export interface StateFormField {
   name: string;
   label?: string | null;
-  width?: number | null;
+  /**
+   * form defaults to spanning the full two columns
+   */
+  colSpan?: ('1' | '2') | null;
   required?: boolean | null;
   id?: string | null;
   blockName?: string | null;
@@ -748,12 +762,26 @@ export interface StateFormField {
 export interface TextFormField {
   name: string;
   label?: string | null;
-  width?: number | null;
+  colSpan?: ('1' | '2') | null;
   defaultValue?: string | null;
   required?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextareaFormField".
+ */
+export interface TextareaFormField {
+  name: string;
+  label?: string | null;
+  colSpan?: ('1' | '2') | null;
+  defaultValue?: string | null;
+  required?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textarea';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -764,45 +792,10 @@ export interface ArrayFormField {
   label: string;
   title?: string | null;
   description?: string | null;
-  width?: number | null;
+  colSpan?: ('1' | '2') | null;
   minRows: number;
   maxRows: number;
-  fields: (
-    | TextFormField
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        defaultValue?: string | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'textarea';
-      }
-    | EmailFormField
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        defaultValue?: number | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'number';
-      }
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        errorMsg?: string | null;
-        defaultValue?: boolean | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'checkbox';
-      }
-    | PhoneFormField
-  )[];
+  fields: (TextFormField | TextareaFormField | EmailFormField | NumberFormField | CheckboxFormField | PhoneFormField)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'array';
@@ -814,7 +807,10 @@ export interface ArrayFormField {
 export interface PhoneFormField {
   name: string;
   label?: string | null;
-  width?: number | null;
+  /**
+   * form defaults to spanning the full two columns
+   */
+  colSpan?: ('1' | '2') | null;
   required?: boolean | null;
   id?: string | null;
   blockName?: string | null;
@@ -830,38 +826,10 @@ export interface GroupFormField {
   description?: string | null;
   fields: (
     | TextFormField
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        defaultValue?: string | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'textarea';
-      }
+    | TextareaFormField
     | EmailFormField
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        defaultValue?: number | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'number';
-      }
-    | {
-        name: string;
-        label?: string | null;
-        width?: number | null;
-        errorMsg?: string | null;
-        defaultValue?: boolean | null;
-        required?: boolean | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'checkbox';
-      }
+    | NumberFormField
+    | CheckboxFormField
     | PhoneFormField
     | ArrayFormField
   )[];
@@ -1453,18 +1421,7 @@ export interface FormsSelect<T extends boolean = true> {
   fields?:
     | T
     | {
-        checkbox?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              errorMsg?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        checkbox?: T | CheckboxFormFieldSelect<T>;
         country?: T | CountryFormFieldSelect<T>;
         email?: T | EmailFormFieldSelect<T>;
         message?:
@@ -1474,31 +1431,11 @@ export interface FormsSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        number?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        number?: T | NumberFormFieldSelect<T>;
         select?: T | SelectFormFieldSelect<T>;
         state?: T | StateFormFieldSelect<T>;
         text?: T | TextFormFieldSelect<T>;
-        textarea?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        textarea?: T | TextareaFormFieldSelect<T>;
         array?: T | ArrayFormFieldSelect<T>;
         group?: T | GroupFormFieldSelect<T>;
         phone?: T | PhoneFormFieldSelect<T>;
@@ -1528,12 +1465,26 @@ export interface FormsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CheckboxFormField_select".
+ */
+export interface CheckboxFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  colSpan?: T;
+  errorMsg?: T;
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CountryFormField_select".
  */
 export interface CountryFormFieldSelect<T extends boolean = true> {
   name?: T;
   label?: T;
-  width?: T;
+  colSpan?: T;
   required?: T;
   id?: T;
   blockName?: T;
@@ -1545,7 +1496,24 @@ export interface CountryFormFieldSelect<T extends boolean = true> {
 export interface EmailFormFieldSelect<T extends boolean = true> {
   name?: T;
   label?: T;
-  width?: T;
+  colSpan?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumberFormField_select".
+ */
+export interface NumberFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  colSpan?: T;
+  defaultValue?: T;
+  min?: T;
+  minError?: T;
+  max?: T;
+  maxError?: T;
   required?: T;
   id?: T;
   blockName?: T;
@@ -1557,7 +1525,7 @@ export interface EmailFormFieldSelect<T extends boolean = true> {
 export interface SelectFormFieldSelect<T extends boolean = true> {
   name?: T;
   label?: T;
-  width?: T;
+  colSpan?: T;
   defaultValue?: T;
   options?:
     | T
@@ -1577,7 +1545,7 @@ export interface SelectFormFieldSelect<T extends boolean = true> {
 export interface StateFormFieldSelect<T extends boolean = true> {
   name?: T;
   label?: T;
-  width?: T;
+  colSpan?: T;
   required?: T;
   id?: T;
   blockName?: T;
@@ -1589,7 +1557,20 @@ export interface StateFormFieldSelect<T extends boolean = true> {
 export interface TextFormFieldSelect<T extends boolean = true> {
   name?: T;
   label?: T;
-  width?: T;
+  colSpan?: T;
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextareaFormField_select".
+ */
+export interface TextareaFormFieldSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  colSpan?: T;
   defaultValue?: T;
   required?: T;
   id?: T;
@@ -1604,48 +1585,17 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
   label?: T;
   title?: T;
   description?: T;
-  width?: T;
+  colSpan?: T;
   minRows?: T;
   maxRows?: T;
   fields?:
     | T
     | {
         text?: T | TextFormFieldSelect<T>;
-        textarea?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        textarea?: T | TextareaFormFieldSelect<T>;
         email?: T | EmailFormFieldSelect<T>;
-        number?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        checkbox?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              errorMsg?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        number?: T | NumberFormFieldSelect<T>;
+        checkbox?: T | CheckboxFormFieldSelect<T>;
         phone?: T | PhoneFormFieldSelect<T>;
       };
   id?: T;
@@ -1658,7 +1608,7 @@ export interface ArrayFormFieldSelect<T extends boolean = true> {
 export interface PhoneFormFieldSelect<T extends boolean = true> {
   name?: T;
   label?: T;
-  width?: T;
+  colSpan?: T;
   required?: T;
   id?: T;
   blockName?: T;
@@ -1675,41 +1625,10 @@ export interface GroupFormFieldSelect<T extends boolean = true> {
     | T
     | {
         text?: T | TextFormFieldSelect<T>;
-        textarea?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        textarea?: T | TextareaFormFieldSelect<T>;
         email?: T | EmailFormFieldSelect<T>;
-        number?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
-        checkbox?:
-          | T
-          | {
-              name?: T;
-              label?: T;
-              width?: T;
-              errorMsg?: T;
-              defaultValue?: T;
-              required?: T;
-              id?: T;
-              blockName?: T;
-            };
+        number?: T | NumberFormFieldSelect<T>;
+        checkbox?: T | CheckboxFormFieldSelect<T>;
         phone?: T | PhoneFormFieldSelect<T>;
         array?: T | ArrayFormFieldSelect<T>;
       };

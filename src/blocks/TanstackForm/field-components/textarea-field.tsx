@@ -5,25 +5,18 @@ import { useFieldContext } from '../hooks/form-context'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/utilities/ui'
 import { Textarea } from '@/components/ui/textarea'
+import { TextareaFormField } from '@/payload-types'
 
-export default function TextareaField({
-  id,
-  label,
-  width = 100,
-}: {
-  id: string
-  label: string
-  width: number
-}) {
+export default function TextareaField({ id, label, name, colSpan = "2" }: TextareaFormField) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@md:col-span-1': width === 50 })}>
+    <div className={cn('col-span-2', { '@md:col-span-1': colSpan === "1" })}>
       <div className={cn('grid gap-2 w-full')}>
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id ?? name}>{label}</Label>
         <Textarea
-          id={id}
+          id={id ?? name}
           value={field.state.value}
           onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}

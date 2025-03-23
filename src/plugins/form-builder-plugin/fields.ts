@@ -22,9 +22,17 @@ const required: Field = {
 }
 
 const width: Field = {
-  name: 'width',
-  type: 'number',
-  label: 'Field Width (percentage)',
+  name: 'colSpan',
+  type: 'select',
+  label: 'Width: col-span-?',
+  options: [
+    { label: 'One', value: '1' },
+    { label: 'Two', value: '2' },
+  ],
+  defaultValue: '2',
+  admin: {
+    description: 'form defaults to spanning the full two columns',
+  },
 }
 
 const Select: Block = {
@@ -162,6 +170,7 @@ const Text: Block = {
 
 const Textarea: Block = {
   slug: 'textarea',
+  interfaceName: 'TextareaFormField',
   fields: [
     {
       type: 'row',
@@ -210,6 +219,7 @@ const Textarea: Block = {
 
 const Number: Block = {
   slug: 'number',
+  interfaceName: 'NumberFormField',
   fields: [
     {
       type: 'row',
@@ -244,6 +254,48 @@ const Number: Block = {
             width: '50%',
           },
           label: 'Default Value',
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'min',
+          label: 'Minumum Number',
+          type: 'number',
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'minError',
+          label: 'Minumum Error Message',
+          type: 'text',
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'max',
+          label: 'Maximum Number',
+          type: 'number',
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'maxError',
+          label: 'Maximum Error Message',
+          type: 'text',
+          admin: {
+            width: '50%',
+          },
         },
       ],
     },
@@ -347,6 +399,7 @@ const Country: Block = {
 
 const Checkbox: Block = {
   slug: 'checkbox',
+  interfaceName: 'CheckboxFormField',
   fields: [
     {
       type: 'row',

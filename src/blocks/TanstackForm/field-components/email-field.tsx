@@ -7,12 +7,12 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
 import { EmailFormField } from '@/payload-types'
 
-export default function EmailField({ label, name, width }: EmailFormField) {
+export default function EmailField({ label, name, colSpan = '2' }: EmailFormField) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@md:col-span-1': width === 50 })}>
+    <div className={cn('col-span-2', { '@md:col-span-1': colSpan === '1' })}>
       <div className={cn('grid gap-2 w-full')}>
         <Label htmlFor={name}>{label}</Label>
         <Input
