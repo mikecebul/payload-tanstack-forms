@@ -12,7 +12,7 @@ export default function NumberField({ id, label, name, colSpan = '2' }: NumberFo
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@md:col-span-1': colSpan === '1' })}>
+    <div className={cn('col-span-2', { '@lg:col-span-1': colSpan === '1' })}>
       <div className={cn('grid gap-2 w-full')}>
         <Label htmlFor={id ?? name}>{label}</Label>
         <Input

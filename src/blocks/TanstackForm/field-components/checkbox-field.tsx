@@ -13,7 +13,7 @@ export default function CheckboxField({ id, label, name, colSpan = "2" }: Checkb
 
   return (
     <div
-      className={cn('col-span-2 flex flex-col justify-start', { '@md:col-span-1': colSpan === "1" })}
+      className={cn('col-span-2 flex flex-col justify-start', { '@lg:col-span-1': colSpan === "1" })}
     >
       <div className={cn('flex items-center space-x-2')}>
         <Checkbox

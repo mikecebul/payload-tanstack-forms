@@ -7,12 +7,12 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
 import { TextFormField } from '@/payload-types'
 
-export default function TextField({ id, label, name, colSpan = '2' }: TextFormField) {
+export default function TextField({ id, label, name, colSpan }: TextFormField) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@md:col-span-1': colSpan === '1' })}>
+    <div className={cn('col-span-2', { '@lg:col-span-1': colSpan === '1' })}>
       <div className={cn('grid gap-2 w-full')}>
         <Label htmlFor={id ?? name}>{label}</Label>
         <Input

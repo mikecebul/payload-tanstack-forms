@@ -7,12 +7,12 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
 import type { PhoneFormField } from '@/payload-types'
 
-export default function PhoneField({ label, name, width }: PhoneFormField) {
+export default function PhoneField({ label, name, colSpan }: PhoneFormField) {
   const field = useFieldContext<string>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@md:col-span-1': width === 50 })}>
+    <div className={cn('col-span-2', { '@lg:col-span-1': colSpan === '1' })}>
       <div className={cn('grid gap-2 w-full')}>
         <Label htmlFor={name}>{label}</Label>
         <Input

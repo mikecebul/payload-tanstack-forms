@@ -34,7 +34,6 @@ export const useFormOpts = ({
     onSubmit: async ({ value: data, formApi: form }) => {
       setPostError(undefined)
       const dataToSend = prepareSubmissionData(data)
-      console.log('Data', dataToSend)
 
       try {
         const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {

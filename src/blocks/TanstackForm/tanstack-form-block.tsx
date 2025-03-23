@@ -52,7 +52,7 @@ export const TanstackFormBlock = ({ form: payloadForm, enableIntro, introContent
               </CardContent>
               <CardFooter>
                 <form.AppForm>
-                  <form.SubscribeButton label={submitButtonLabel ?? 'Submit'} />
+                  <form.SubmitButton label={submitButtonLabel ?? 'Submit'} />
                 </form.AppForm>
               </CardFooter>
             </Card>
