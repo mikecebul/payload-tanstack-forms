@@ -4,10 +4,10 @@ import { Card, CardContent } from '@/components/ui/card'
 import type { DefaultValues } from '@/blocks/TanstackForm/hooks/use-form-opts'
 
 const FormData: UIFieldServerComponent = async ({ data }) => {
-  const formData = data?.submissionData as DefaultValues
+  const formData = data?.jsonData as DefaultValues
 
   if (!formData) {
-    return <div>No submission data available</div>
+    return <div>No json data available</div>
   }
   const groupFields = Object.entries(formData).filter(
     ([_, value]) => typeof value === 'object' && !Array.isArray(value),

@@ -14,6 +14,12 @@ importers:
       '@payloadcms/db-mongodb':
         specifier: 3.29.0
         version: 3.29.0(@aws-sdk/credential-providers@3.758.0)(payload@3.29.0(graphql@16.10.0)(typescript@5.8.2))
+      '@payloadcms/email-nodemailer':
+        specifier: ^3.29.0
+        version: 3.29.0(payload@3.29.0(graphql@16.10.0)(typescript@5.8.2))
+      '@payloadcms/email-resend':
+        specifier: ^3.29.0
+        version: 3.29.0(payload@3.29.0(graphql@16.10.0)(typescript@5.8.2))
       '@payloadcms/live-preview-react':
         specifier: 3.29.0
         version: 3.29.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -931,6 +937,18 @@ packages:
 
   '@payloadcms/db-mongodb@3.29.0':
     resolution: {integrity: sha512-n9y5njLbc3Q3FrtuCCxsTEN/HJsEIkLrEKLw/2bOIn356gZJGTLi0bazcnFSKEmwsZfyrzzrNsle7gWlrOUOSQ==}
+    peerDependencies:
+      payload: 3.29.0
+
+  '@payloadcms/email-nodemailer@3.29.0':
+    resolution: {integrity: sha512-5xIWmTadlpMvdBd96vUUWhvDdFepCBE35vKhdDvObkvqr0g33lJmm7n7V2HHKPCG1C9EmJa4m0c+B7hj8UqH5Q==}
+    engines: {node: ^18.20.2 || >=20.9.0}
+    peerDependencies:
+      payload: 3.29.0
+
+  '@payloadcms/email-resend@3.29.0':
+    resolution: {integrity: sha512-0iOGmwzvuaADs2kFjml/L+fRDbNVPqzAh6UYWwG9Fo+l4oONEkogUzWSUJWgG/Yz4g0nEVszXAbyWUsgWCJQ9Q==}
+    engines: {node: ^18.20.2 || >=20.9.0}
     peerDependencies:
       payload: 3.29.0
 
@@ -3233,6 +3251,10 @@ packages:
   node-addon-api@6.1.0:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
 
+  nodemailer@6.9.16:
+    resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
+    engines: {node: '>=6.0.0'}
+
   noms@0.0.0:
     resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
 
@@ -5229,6 +5251,15 @@ snapshots:
       - snappy
       - socks
       - supports-color
+
+  '@payloadcms/email-nodemailer@3.29.0(payload@3.29.0(graphql@16.10.0)(typescript@5.8.2))':
+    dependencies:
+      nodemailer: 6.9.16
+      payload: 3.29.0(graphql@16.10.0)(typescript@5.8.2)
+
+  '@payloadcms/email-resend@3.29.0(payload@3.29.0(graphql@16.10.0)(typescript@5.8.2))':
+    dependencies:
+      payload: 3.29.0(graphql@16.10.0)(typescript@5.8.2)
 
   '@payloadcms/graphql@3.29.0(graphql@16.10.0)(payload@3.29.0(graphql@16.10.0)(typescript@5.8.2))(typescript@5.8.2)':
     dependencies:
@@ -7995,6 +8026,8 @@ snapshots:
       semver: 7.7.1
 
   node-addon-api@6.1.0: {}
+
+  nodemailer@6.9.16: {}
 
   noms@0.0.0:
     dependencies:

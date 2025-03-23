@@ -6,6 +6,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { getClientSideURL } from '@/utilities/getURL'
 import { useRouter } from 'next/navigation'
 import { PostError } from '../tanstack-form-block'
+import { flatten } from '@/plugins/form-builder-plugin/utils/flatten'
 
 export type FormField = NonNullable<Form['fields']>[number]
 export type Value = string | number | boolean | any[] | Record<string, any> | undefined
@@ -18,8 +19,13 @@ export const useFormOpts = ({
   payloadForm: Form | string
   setPostError: Dispatch<SetStateAction<PostError | undefined>>
 }) => {
-  const { confirmationType, fields, title, redirect } =
-    typeof payloadForm !== 'string' ? payloadForm : {}
+  const {
+    confirmationType,
+    fields,
+    id: formId,
+    title: formType,
+    redirect,
+  } = typeof payloadForm !== 'string' ? payloadForm : {}
   const router = useRouter()
   const defaultValues = getDefaultValues(fields)
 
@@ -27,12 +33,19 @@ export const useFormOpts = ({
     defaultValues,
     onSubmit: async ({ value: data, formApi }) => {
       setPostError(undefined)
+      const flattenData = flatten(data)
+      const dataToSend = Object.entries(flattenData).map(([name, value]) => ({
+        field: name,
+        value,
+      }))
 
       try {
         const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
           body: JSON.stringify({
-            form: title,
-            submissionData: data,
+            form: formId,
+            formType: formType,
+            submissionData: dataToSend,
+            jsonData: data,
           }),
           headers: {
             'Content-Type': 'application/json',

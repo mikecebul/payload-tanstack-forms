@@ -1,4 +1,5 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -58,6 +59,18 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
+  email: nodemailerAdapter({
+    defaultFromAddress: process.env.EMAIL_SMTP_USER ?? 'dev@mikecebul.dev',
+    defaultFromName: 'Payload - Tanstack Form',
+    transportOptions: {
+      host: process.env.EMAIL_SMTP_HOST ?? 'localhost',
+      port: process.env.EMAIL_SMTP_PORT ?? '1025',
+      auth: {
+        user: process.env.EMAIL_SMTP_USER ?? 'mike',
+        pass: process.env.EMAIL_SMTP_PASS ?? 'password',
+      },
+    },
+  }),
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),

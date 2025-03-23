@@ -3,7 +3,7 @@ import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
-import { Plugin } from 'payload'
+import { Field, Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -94,21 +94,45 @@ export const plugins: Plugin[] = [
       admin: {
         useAsTitle: 'createdAt',
       },
-      fields: () => [
-        {
-          name: 'form',
-          type: 'text',
-        },
-        {
-          name: 'submissionData',
-          type: 'json',
-          admin: {
-            components: {
-              Field: '@/plugins/form-builder-plugin/FormData',
+      fields: ({ defaultFields }) => {
+        const formField = defaultFields.find((field) => 'name' in field && field.name === 'form')
+        const submissionData = defaultFields.find(
+          (field) => 'name' in field && field.name === 'submissionData',
+        )
+        return [
+          ...(formField ? [formField] : []),
+          {
+            name: 'formType',
+            type: 'text',
+            admin: {
+              hidden: true,
             },
           },
-        },
-      ],
+          ...(submissionData
+            ? [
+                {
+                  ...submissionData,
+                  // admin: {
+                  //   ...(submissionData.admin ?? {}),
+                  // //   hidden: true,
+                  // },
+                } as Field,
+              ]
+            : []),
+          {
+            name: 'jsonData',
+            type: 'json',
+            admin: {
+              components: {
+                Field: '@/plugins/form-builder-plugin/FormData',
+              },
+            },
+          },
+        ]
+      },
+      hooks: {
+        beforeChange: [],
+      },
     },
   }),
   searchPlugin({

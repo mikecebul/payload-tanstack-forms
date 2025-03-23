@@ -48,7 +48,6 @@ export const ArrayFieldComponent = ({
                     // Map through each array item
                     <MotionWrapper key={i}>
                       <Card
-                        key={i}
                         className={cn('col-span-2', {
                           'p-0 shadow-none border-none': arrayFields.length < 2,
                         })}
