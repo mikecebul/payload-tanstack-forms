@@ -10,6 +10,7 @@ This is a customized version of the official [Payload Website Template](https://
 - Added **custom form fields** including:
   - Phone number input
   - Array fields with dynamic input handling
+  - Group Fields
 - Customize original fields as well
 
 ## TODO
