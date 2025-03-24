@@ -1,9 +1,9 @@
-import { UIFieldServerComponent } from 'payload'
+import { JSONFieldServerComponent } from 'payload'
 import React from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import type { DefaultValues } from '@/blocks/TanstackForm/hooks/use-form-opts'
 
-const FormData: UIFieldServerComponent = async ({ data }) => {
+const FormData: JSONFieldServerComponent = async ({ data }) => {
   const formData = data?.jsonData as DefaultValues
 
   if (!formData) {
