@@ -12,13 +12,13 @@ export default function TextField({ id, label, name, colSpan }: TextFormField) {
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
-    <div className={cn('col-span-2', { '@lg:col-span-1': colSpan === '1' })}>
+    <div className={cn('col-span-2 w-full', { '@lg:col-span-1': colSpan === '1' })}>
       <div className={cn('grid gap-2 w-full')}>
         <Label htmlFor={id ?? name}>{label}</Label>
         <Input
           id={id ?? name}
           type="text"
-          value={field.state.value}
+          value={field.state.value ?? ''}
           onBlur={() => field.handleBlur()}
           onChange={(e) => field.handleChange(e.target.value)}
         />

@@ -7,13 +7,15 @@ import { cn } from '@/utilities/ui'
 import { Checkbox } from '@/components/ui/checkbox'
 import { CheckboxFormField } from '@/payload-types'
 
-export default function CheckboxField({ id, label, name, colSpan = "2" }: CheckboxFormField) {
+export default function CheckboxField({ id, label, name, colSpan = '2' }: CheckboxFormField) {
   const field = useFieldContext<boolean>()
   const errors = useStore(field.store, (state) => state.meta.errors)
 
   return (
     <div
-      className={cn('col-span-2 flex flex-col justify-start', { '@lg:col-span-1': colSpan === "1" })}
+      className={cn('col-span-2 flex flex-col justify-start w-full', {
+        '@lg:col-span-1': colSpan === '1',
+      })}
     >
       <div className={cn('flex items-center space-x-2')}>
         <Checkbox

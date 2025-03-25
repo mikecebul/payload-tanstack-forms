@@ -17,7 +17,7 @@ import { cn } from '@/utilities/ui'
 
 import { motion, AnimatePresence } from 'motion/react'
 import { Plus, Trash2 } from 'lucide-react'
-import { ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
 
 export const ArrayFieldComponent = ({
   defaultValues,
@@ -80,20 +80,49 @@ export const ArrayFieldComponent = ({
                             'p-0 pb-2': arrayFields.length < 2,
                           })}
                         >
-                          {arrayFields?.map((field) => {
-                            const newField = {
-                              ...field,
-                              name: `${arrayFieldName}[${i}].${field.name}`,
+                          {arrayFields?.map((subField, index) => {
+                            const newSubField = {
+                              ...subField,
+                              name: `${arrayFieldName}[${i}].${subField.name}`,
                               label:
-                                arrayFields.length < 2 ? `${field.label} ${i + 1}` : field.label,
+                                arrayFields.length < 2
+                                  ? `${subField.label} ${i + 1}`
+                                  : subField.label,
                             }
                             return (
-                              <RenderFields
-                                key={field.id}
-                                field={newField}
-                                defaultValues={defaultValues}
-                                form={form}
-                              />
+                              <div key={subField.id || index}>
+                                {arrayFields.length !== 1 ? (
+                                  <RenderFields
+                                    field={newSubField}
+                                    defaultValues={defaultValues}
+                                    form={form}
+                                  />
+                                ) : (
+                                  <div className="flex items-center" key={subField.id}>
+                                    <RenderFields
+                                      field={newSubField}
+                                      defaultValues={defaultValues}
+                                      form={form}
+                                    />
+                                    <Button
+                                      type="button"
+                                      variant="ghost"
+                                      size="icon"
+                                      className={cn(
+                                        'size-7 rounded-full transition-opacity hover:bg-red-100 ml-4',
+                                        {
+                                          'pointer-events-none opacity-0':
+                                            arrayFieldValue.length <= minRows,
+                                          'opacity-100': arrayFieldValue.length > minRows,
+                                        },
+                                      )}
+                                      onClick={() => field.removeValue(i)}
+                                    >
+                                      <Trash2 className="size-4 text-red-700 hover:text-red-900" />
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
                             )
                           })}
                         </CardContent>
