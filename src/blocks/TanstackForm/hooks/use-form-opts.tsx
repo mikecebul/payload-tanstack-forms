@@ -36,7 +36,7 @@ export const useFormOpts = ({
       const dataToSend = prepareSubmissionData(data)
 
       try {
-        const req = await fetch(`${getClientSideURL()}/api/form-submissions`, {
+        const req = await fetch(`${getClientSideURL()}/api/form-submission`, {
           body: JSON.stringify({
             form: formId,
             formType: formType,
