@@ -17,7 +17,7 @@ import { cn } from '@/utilities/ui'
 
 import { motion, AnimatePresence } from 'motion/react'
 import { Plus, Trash2 } from 'lucide-react'
-import { Fragment, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 export const ArrayFieldComponent = ({
   defaultValues,

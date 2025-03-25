@@ -8,7 +8,7 @@ import { DynamicFormType } from '../hooks/use-dynamic-form'
 
 export const GroupFieldComponent = ({
   defaultValues,
-  field: { fields: groupFields, description, name, title },
+  field: { fields: groupFields, description, name: parentName, title },
   form,
 }: {
   defaultValues: DefaultValues
@@ -26,15 +26,20 @@ export const GroupFieldComponent = ({
         )}
         <CardContent className="grid grid-cols-1 gap-4 @md:grid-cols-2 auto-cols-fr px-0">
           {/* Array Field Context */}
-          {groupFields?.map((field) => (
-            <RenderFields
-              key={field.id}
-              field={field}
-              defaultValues={defaultValues}
-              form={form}
-              parentKey={name}
-            />
-          ))}
+          {groupFields?.map((subField) => {
+            const newSubField = {
+              ...subField,
+              name: `${parentName}.${subField.name}`,
+            }
+            return (
+              <RenderFields
+                key={subField.id}
+                field={newSubField}
+                defaultValues={defaultValues}
+                form={form}
+              />
+            )
+          })}
         </CardContent>
       </Card>
     </div>

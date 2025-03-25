@@ -6,21 +6,14 @@ import { GroupFieldComponent } from './render-group-field'
 import RichText from '@/components/RichText'
 
 export const RenderFields = ({
-  field: oldField,
+  field,
   defaultValues,
   form,
-  parentKey,
 }: {
   field: FormField
   defaultValues: DefaultValues
   form: DynamicFormType
-  parentKey?: string
 }) => {
-  const field =
-    'name' in oldField
-      ? { ...oldField, name: parentKey ? `${parentKey}.${oldField.name}` : oldField.name }
-      : oldField
-
   switch (field.blockType) {
     case 'message':
       if (!field.message) return <></>
